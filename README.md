@@ -1,9 +1,7 @@
 # MuseSwarm
 
-Formerly SwarmGuard. The name changed; the protection scope and execution holds did not.
-
 <p align="center">
-  <img src="assets/brand/museswarm-wordmark.png" alt="MuseSwarm, unchanged lattice shield icon" width="640" />
+  <img src="assets/brand/museswarm-wordmark.png" alt="MuseSwarm" width="640" />
 </p>
 
 A scoped policy gate for AI-agent tools - Meta Global AI Developer Hackathon (Indie Track). Not OS-wide antivirus.
@@ -125,18 +123,9 @@ Env flags:
 
 Analysis reliability: provider calls have a 30-second timeout and no automatic retries. Invalid report fields fall back to explicitly labeled local analysis. Demo quarantine is simulated; SAFE results do not create a quarantine. Offline tests use mocked providers, not Meta API credits.
 
-## Branding and upgrade compatibility
+## Configuration compatibility
 
-The product is **MuseSwarm** by **arbonomous**. The existing shield icon is unchanged.
-The repository is now `arbonomous/museswarm`; existing GitHub repository links redirect.
-A local checkout can keep its current directory name. To update its remote, use
-`git remote set-url origin https://github.com/arbonomous/museswarm.git`.
-
-Legacy `SWARMGUARD_*` environment variables, `swarmguard_mcp`,
-`hooks/swarmguard_pretool.py`, state directories, PID locks, container names and labels,
-and frozen icon asset filenames are intentionally retained for compatibility.
-They are technical identifiers, not the current product name. Do not clear or move
-existing state to adopt the new name. `museswarm_mcp` and `hooks/museswarm_pretool.py`
-are new equivalent entry points. This source update does not update an installed Mac copy.
-
-The name is a working brand, not a claim of trademark clearance. No domain has been purchased.
+Existing `SWARMGUARD_*` settings, `swarmguard_mcp` and
+`hooks/swarmguard_pretool.py` remain supported. The `museswarm_mcp` and
+`hooks/museswarm_pretool.py` entry points use the same policy implementation.
+Keep existing state directories and PID locks in place when updating.
