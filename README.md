@@ -1,7 +1,9 @@
-# SwarmGuard
+# MuseSwarm
+
+Formerly SwarmGuard. The name changed; the protection scope and execution holds did not.
 
 <p align="center">
-  <img src="assets/brand/swarmguard-mark.png" alt="SwarmGuard mark" width="96" />
+  <img src="assets/brand/museswarm-wordmark.png" alt="MuseSwarm, unchanged lattice shield icon" width="640" />
 </p>
 
 A scoped policy gate for AI-agent tools - Meta Global AI Developer Hackathon (Indie Track). Not OS-wide antivirus.
@@ -10,11 +12,11 @@ A scoped policy gate for AI-agent tools - Meta Global AI Developer Hackathon (In
 
 ## Claim
 
-**Fail-closed on the wire + Meta multimodal forensics.**  
-SwarmGuard is a scoped agent-tool gate: an IDE PreToolUse hook + MCP stdio policy proxy deny dangerous tool calls *before* they run, and a Meta Muse swarm (Spark + Wonder + SAM) sees concealed injections when you opt in.
+**Fail-closed on the wire + Meta multimodal forensics.**
+MuseSwarm is a scoped agent-tool gate: an IDE PreToolUse hook + MCP stdio policy proxy deny dangerous tool calls *before* they run, and a Meta Muse swarm (Spark + Wonder + SAM) sees concealed injections when you opt in.
 
 ```
-Cursor / Claude Code  →  IDE hook (hooks/swarmguard_pretool.py)
+Cursor / Claude Code  →  IDE hook (hooks/museswarm_pretool.py)
 Agent MCP tools       →  MCP proxy (mcp_proxy.py)
                               │ both → policy.py
                               ▼ deny
@@ -23,7 +25,7 @@ Agent MCP tools       →  MCP proxy (mcp_proxy.py)
 
 ## What it is
 
-1. **IDE policy hook** — Cursor `.cursor/hooks.json` + Claude Code `.claude/settings.json` run `hooks/swarmguard_pretool.py` on PreToolUse / shell / read / MCP; denies `.env` reads and evil curl; logs `policy_deny` with `trigger=ide_hook`
+1. **IDE policy hook** — Cursor `.cursor/hooks.json` + Claude Code `.claude/settings.json` run `hooks/museswarm_pretool.py` on PreToolUse / shell / read / MCP; denies `.env` reads and evil curl; logs `policy_deny` with `trigger=ide_hook`
 2. **MCP policy proxy** — `mcp_proxy.py` intercepts `tools/call`, runs `policy.evaluate_tool_call`, denies before upstream, logs `policy_deny` incidents
 3. **Policy catalog** — 16+ attack classes with no API spend — see `threat_model.py`
 4. **Meta AI swarm** — Muse Spark + Wonder + SAM inspect poisoned docs / helper behavior
@@ -46,11 +48,11 @@ Already checked in:
 
 | Surface | Path |
 |---------|------|
-| Hook script | `hooks/swarmguard_pretool.py` |
-| Cursor project hooks | `.cursor/hooks.json` → `python3 hooks/swarmguard_pretool.py` (`failClosed: true`) |
+| Hook script | `hooks/museswarm_pretool.py` |
+| Cursor project hooks | `.cursor/hooks.json` → `python3 hooks/museswarm_pretool.py` (`failClosed: true`) |
 | Claude Code project hooks | `.claude/settings.json` → same script via `$CLAUDE_PROJECT_DIR` |
 
-Cursor reloads hooks on save (or restart Cursor). Confirm in **Cursor Settings → Hooks**.  
+Cursor reloads hooks on save (or restart Cursor). Confirm in **Cursor Settings → Hooks**.
 Optional user-wide Cursor install: copy/merge into `~/.cursor/hooks.json` with a command that points at this repo’s absolute script path (project hooks are preferred so other workspaces stay unaffected).
 
 **Honest limits:** the IDE hook soft-allows pure “unknown path/cmd” so normal coding still works; catalog denials (secrets, egress, reverse shells, …) still block. MCP proxy stays hard fail-closed for untrusted tools. Cloud/remote agents may not deliver hook stdin (known Cursor limitation). Hooks only apply where Cursor/Claude Code loads this project’s config.
@@ -60,16 +62,16 @@ Optional user-wide Cursor install: copy/merge into `~/.cursor/hooks.json` with a
 Primary UX on macOS is the **menu-bar Protector** — quiet AV vibes, native in-app panel (not a browser).
 
 ```bash
-cd swarmguard-zero
+cd museswarm
 ./run_menubar.sh
 ```
 
-1. Look for the **SwarmGuard mark** in the menu bar (`assets/brand/swarmguard-icon-menu.png`) — status suffixes `!` / `·` when denials or enforce-off.
-2. Click the status item → **Open Protector** to toggle the native panel (mark + SwarmGuard title, status, MCP gate, recent denials, Refresh, Run free proofs).
+1. Look for the **MuseSwarm mark** in the menu bar (`assets/brand/swarmguard-icon-menu.png`) — status suffixes `!` / `·` when denials or enforce-off.
+2. Click the status item → **Open Protector** to toggle the native panel (mark + MuseSwarm title, status, MCP gate, recent denials, Refresh, Run free proofs).
 3. **Open full console (advanced)…** is optional — launches Streamlit `dashboard.py` in a browser for the deep console.
-4. **Refresh the icon:** menu → **Quit SwarmGuard menu**, then `./run_menubar.sh` again. Stale lock only: `rm /tmp/swarmguard-menubar.pid`.
+4. **Refresh the icon:** menu → **Quit MuseSwarm menu**, then `./run_menubar.sh` again. Stale lock only: `rm /tmp/swarmguard-menubar.pid`.
 
-Brand tokens/usage: [`assets/brand/BRAND.md`](./assets/brand/BRAND.md). Mark + popout mock generated with **Muse Image** (`python tools/generate_brand_muse.py`). Runtime menu bar / Protector panel make **no Muse calls**. Single status item + PID lock (`/tmp/swarmguard-menubar.pid`).
+Brand tokens/usage: [`assets/brand/BRAND.md`](./assets/brand/BRAND.md). Original mark generated with **Muse Image** and frozen. Current wordmark uses that unchanged icon; no image generation is needed. Runtime menu bar / Protector panel make **no Muse calls**. Single status item + PID lock (`/tmp/swarmguard-menubar.pid`).
 
 Install rumps into the venv when you can (`rumps` is in `requirements.txt`). If rumps is missing, `run_menubar.sh` falls back to Framework Python 3.13 + AppKit/PyObjC when present.
 
@@ -90,7 +92,7 @@ The stdio wrapper uses newline-delimited JSON-RPC per the [MCP transport specifi
 # Proof / demo upstream
 python mcp_proxy.py -- python safe_range/fake_mcp_upstream.py
 
-# Or: python -m swarmguard_mcp -- <your-mcp-server> [args...]
+# Or: python -m museswarm_mcp -- <your-mcp-server> [args...]
 ```
 
 Env flags:
@@ -122,3 +124,19 @@ Env flags:
 | Vision | `sam-3.1` |
 
 Analysis reliability: provider calls have a 30-second timeout and no automatic retries. Invalid report fields fall back to explicitly labeled local analysis. Demo quarantine is simulated; SAFE results do not create a quarantine. Offline tests use mocked providers, not Meta API credits.
+
+## Branding and upgrade compatibility
+
+The product is **MuseSwarm** by **arbonomous**. The existing shield icon is unchanged.
+The repository is now `arbonomous/museswarm`; existing GitHub repository links redirect.
+A local checkout can keep its current directory name. To update its remote, use
+`git remote set-url origin https://github.com/arbonomous/museswarm.git`.
+
+Legacy `SWARMGUARD_*` environment variables, `swarmguard_mcp`,
+`hooks/swarmguard_pretool.py`, state directories, PID locks, container names and labels,
+and frozen icon asset filenames are intentionally retained for compatibility.
+They are technical identifiers, not the current product name. Do not clear or move
+existing state to adopt the new name. `museswarm_mcp` and `hooks/museswarm_pretool.py`
+are new equivalent entry points. This source update does not update an installed Mac copy.
+
+The name is a working brand, not a claim of trademark clearance. No domain has been purchased.

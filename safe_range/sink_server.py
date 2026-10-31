@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Localhost-only exfil sink for the SwarmGuard safe range.
+"""Localhost-only exfil sink for the MuseSwarm safe range.
 
 Binds 127.0.0.1 only. Never listens on 0.0.0.0.
 Records POST bodies so we can prove a simulated agent 'exfiltrated' canary secrets.
@@ -47,7 +47,7 @@ class SinkHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-Type", "text/plain")
         self.end_headers()
-        self.wfile.write(b"SwarmGuard safe-range sink. POST /exfil only.\n")
+        self.wfile.write(b"MuseSwarm safe-range sink. POST /exfil only.\n")
 
 
 def main() -> None:

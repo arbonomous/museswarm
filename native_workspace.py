@@ -74,7 +74,7 @@ def present_panel(panel, app, running_app, activation_options) -> None:
     activated = running_app.activateWithOptions_(activation_options)
     panel.makeKeyWindow()
     panel.orderFrontRegardless()
-    print('[SwarmGuard] Presentation visible=' + str(bool(panel.isVisible())) +
+    print('[MuseSwarm] Presentation visible=' + str(bool(panel.isVisible())) +
           ' key=' + str(bool(panel.isKeyWindow())) +
           ' active=' + str(bool(app.isActive())) +
           ' activation_accepted=' + str(bool(activated)), flush=True)
@@ -126,7 +126,7 @@ def _build():
             self.panel = NSPanel.alloc().initWithContentRect_styleMask_backing_defer_(
                 NSMakeRect(0, 0, 590, 660), NSWindowStyleMaskTitled | NSWindowStyleMaskClosable,
                 NSBackingStoreBuffered, False)
-            self.panel.setTitle_('SwarmGuard - Agent safety')
+            self.panel.setTitle_('MuseSwarm - Agent safety')
             self.panel.setReleasedWhenClosed_(False)
             self.panel.setLevel_(NSFloatingWindowLevel)
             self.panel.center()
@@ -165,7 +165,7 @@ def _build():
             brand = NSImageView.alloc().initWithFrame_(NSMakeRect(18, 596, 36, 36))
             self.brand_icon = mark
             brand.setImage_(mark);brand.setImageScaling_(0);content.addSubview_(brand)
-            title = NSTextField.labelWithString_('SwarmGuard')
+            title = NSTextField.labelWithString_('MuseSwarm')
             title.setFrame_(NSMakeRect(66, 608, 280, 24));content.addSubview_(title)
             self.headline = label('Ready to check. This is not whole-Mac protection.', 572, 24)
             self.home_button = button('Test managed guard', 'guardClicked:', 365, 596, 205)
@@ -257,7 +257,7 @@ def _build():
                 for view in (self.check_button,self.exports_label,self.exports,self.save_button):view.setHidden_(True)
                 for name,frame in protected_layout().items():
                     view=getattr(self,name);view.setFrame_(NSMakeRect(*frame));view.setHidden_(False)
-                self.workspace_scope.setStringValue_('Local review only. Nothing sent and no worker started.\nOnly SwarmGuard-owned tasks can be guarded.')
+                self.workspace_scope.setStringValue_('Local review only. Nothing sent and no worker started.\nOnly MuseSwarm-owned tasks can be guarded.')
                 self.workspace_limits.setStringValue_(limits_text())
                 self.command_label.setStringValue_('Goal for the selected source copies:')
                 self.run_button.setTitle_('Review protected task')
@@ -290,7 +290,7 @@ def _build():
                     self.exports.setHidden_(True)
                     self.check_button.setHidden_(True)
                     self.save_button.setEnabled_(False)
-                    self.results.setString_('Choose non-secret text source and write a goal. Review exact copies before any provider disclosure. Execution is paused; this cannot run a model. Only SwarmGuard-owned tasks can be guarded. Outside agents and the rest of your Mac are not protected.');return
+                    self.results.setString_('Choose non-secret text source and write a goal. Review exact copies before any provider disclosure. Execution is paused; this cannot run a model. Only MuseSwarm-owned tasks can be guarded. Outside agents and the rest of your Mac are not protected.');return
                 if not str(self.command.stringValue()).startswith('/'):
                     self.command.setStringValue_("/bin/sh -c 'cat input.txt > result.txt'")
                 self.results.setString_('Offline scratch only. Run the complete check first. No cloud agent is installed.');return
@@ -397,7 +397,7 @@ def _build():
             self.setBusy_(True)
             self.download = None
             self.headline.setStringValue_('Checking... please wait for the result and cleanup.')
-            self.results.setString_('Running in a disposable offline workspace.\nSupervising the owned workload, applying policy, then verifying cleanup.\n\nKeep SwarmGuard open. No network or AI credits are used by offline checks.')
+            self.results.setString_('Running in a disposable offline workspace.\nSupervising the owned workload, applying policy, then verifying cleanup.\n\nKeep MuseSwarm open. No network or AI credits are used by offline checks.')
             def worker():
                 try:
                     message, download = operation()
@@ -563,7 +563,7 @@ def _build():
                 self.operation_kind='protected'
                 self.download=None;self.setBusy_(True)
                 self.headline.setStringValue_('Starting reviewed task. Automatic defenses are on.')
-                self.results.setString_('Running only the reviewed copies and goal. Keep SwarmGuard open until cleanup finishes.')
+                self.results.setString_('Running only the reviewed copies and goal. Keep MuseSwarm open until cleanup finishes.')
                 def progress(text):
                     self.performSelectorOnMainThread_withObject_waitUntilDone_('modelProgress:',text,False)
                 def worker():

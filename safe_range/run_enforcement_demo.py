@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prove SwarmGuard policy blocks the AI-agent attack catalog (no Muse tokens)."""
+"""Prove MuseSwarm policy blocks the AI-agent attack catalog (no Muse tokens)."""
 
 from __future__ import annotations
 

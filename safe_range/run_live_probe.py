@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Feed safe-range telemetry + artifact into SwarmGuard (Meta stack).
+"""Feed safe-range telemetry + artifact into MuseSwarm (Meta stack).
 
 Does not SIGKILL anything. Optionally writes an incident via auto_eliminate
 using the existing demo bus (fake PID), after a real Muse verdict.

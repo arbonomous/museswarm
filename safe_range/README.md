@@ -1,13 +1,13 @@
-# SwarmGuard Safe Range
+# MuseSwarm Safe Range
 
 Live-ish red-team probe that **cannot** hurt your real machine if you follow the rules.
 
 ## What this proves
 
-A disposable “victim project” contains a poisoned README + **fake** canary secrets.  
-A **rogue agent simulator** follows the injection (read canary → POST to localhost).  
-A **localhost sink** records whether exfil would have happened.  
-SwarmGuard then analyzes the **real artifact + real telemetry** from that run.
+A disposable “victim project” contains a poisoned README + **fake** canary secrets.
+A **rogue agent simulator** follows the injection (read canary → POST to localhost).
+A **localhost sink** records whether exfil would have happened.
+MuseSwarm then analyzes the **real artifact + real telemetry** from that run.
 
 This is closer to a real threat than the War Room inject buttons. Production gates: IDE hook + MCP proxy (see repo README).
 
@@ -30,8 +30,8 @@ python safe_range/run_mcp_gate_demo.py
 python safe_range/run_ide_hook_demo.py
 ```
 
-Expect: real `.env` / `~/.ssh` / public URLs DENY; canary exfil DENY under enforce; nothing harmful runs.  
-MCP gate proof: proxy denies `.env` read + evil curl; `fake_mcp_upstream` call log stays empty for those attacks; `policy_deny` rows land in `incidents.jsonl`.  
+Expect: real `.env` / `~/.ssh` / public URLs DENY; canary exfil DENY under enforce; nothing harmful runs.
+MCP gate proof: proxy denies `.env` read + evil curl; `fake_mcp_upstream` call log stays empty for those attacks; `policy_deny` rows land in `incidents.jsonl`.
 IDE hook proof: simulated Cursor/Claude PreToolUse payloads for Read `.env` + curl evil → DENY; `trigger=ide_hook` incidents logged.
 
 Wrap the fake upstream yourself:
@@ -49,4 +49,4 @@ SWARMGUARD_ENFORCE=0 python safe_range/rogue_agent.py
 SWARMGUARD_ENFORCE=0 python safe_range/run_live_probe.py
 ```
 
-Expect: sink logs a canary hit, SwarmGuard returns CRITICAL + quotes (uses Meta API).
+Expect: sink logs a canary hit, MuseSwarm returns CRITICAL + quotes (uses Meta API).

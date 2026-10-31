@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SwarmGuard — always-on protector UI (not a War Room game HUD)."""
+"""MuseSwarm — always-on protector UI (not a War Room game HUD)."""
 
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ BRAND_MARK = ASSETS / "brand" / "swarmguard-mark.png"
 _PAGE_ICON = str(BRAND_MARK) if BRAND_MARK.exists() else ":material/shield:"
 
 st.set_page_config(
-    page_title="SwarmGuard",
+    page_title="MuseSwarm",
     page_icon=_PAGE_ICON,
     layout="centered",
     initial_sidebar_state="collapsed",
@@ -211,10 +211,10 @@ def render_hero(api_ok: bool, gate_on: bool, incident_count: int, mcp_status: di
     if BRAND_MARK.exists():
         brand_row = st.container(horizontal=True, vertical_alignment="center")
         with brand_row:
-            st.image(str(BRAND_MARK), width=48, alt="SwarmGuard mark")
-            st.title("SwarmGuard")
+            st.image(str(BRAND_MARK), width=48, alt="MuseSwarm mark")
+            st.title("MuseSwarm")
     else:
-        st.title("SwarmGuard")
+        st.title("MuseSwarm")
     st.markdown("#### Agent security, with explicit boundaries.")
     st.caption(
         "Policy checks apply only to connected hooks and wrapped MCP tools. "
@@ -240,7 +240,7 @@ def render_hero(api_ok: bool, gate_on: bool, incident_count: int, mcp_status: di
         )
     else:
         st.error(
-            "Set SWARMGUARD_ENFORCE=1 (the default) so SwarmGuard can deny dangerous actions.",
+            "Set SWARMGUARD_ENFORCE=1 (the default) so MuseSwarm can deny dangerous actions.",
             icon=":material/gpp_bad:",
             title="Policy is off",
         )
@@ -355,7 +355,7 @@ def render_activity(incident: dict | None, result: dict | None) -> None:
             st.write(incident.get("headline") or incident.get("title") or "Threat stopped")
             st.write(
                 incident.get("executive_summary")
-                or "SwarmGuard found a hidden instruction and stopped the demo helper."
+                or "MuseSwarm found a hidden instruction and stopped the demo helper."
             )
             st.caption(incident.get("action_detail") or "")
             quotes = incident.get("evidence_quotes") or []
@@ -372,7 +372,7 @@ def render_activity(incident: dict | None, result: dict | None) -> None:
                     st.caption("Trap")
                     st.image(str(img_path), width="stretch", alt="Suspicious artifact")
                 with after:
-                    st.caption("Marked by SwarmGuard")
+                    st.caption("Marked by MuseSwarm")
                     st.image(
                         draw_boxes(img_path, boxes),
                         width="stretch",
@@ -431,7 +431,7 @@ def render_activity(incident: dict | None, result: dict | None) -> None:
 def render_see_it_work(api_ok: bool) -> None:
     st.subheader("See it work", anchor=False)
     st.caption(
-        "Optional. This runs a pretend attack so you can watch SwarmGuard catch it. "
+        "Optional. This runs a pretend attack so you can watch MuseSwarm catch it. "
         "It uses Meta API credits — once is enough for most people."
     )
 
@@ -577,7 +577,7 @@ def render_workspace() -> None:
 
 
 def render_about() -> None:
-    with st.expander("How SwarmGuard thinks about protection"):
+    with st.expander("How MuseSwarm thinks about protection"):
         st.markdown(
             """
 1. **IDE policy hook** — Cursor/Claude PreToolUse runs `hooks/swarmguard_pretool.py`; denials log as IDE hook / `policy_deny`.  

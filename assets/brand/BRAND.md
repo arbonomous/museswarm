@@ -1,9 +1,9 @@
-# SwarmGuard brand
+# MuseSwarm brand
 
 Quiet antivirus for AI agents — trustworthy, sharp, not a gamer/SOC toy.
 
-**Product name:** SwarmGuard  
-**Edition tagline:** ZERO — use sparingly (hackathon / submission titles only). Prefer **SwarmGuard** in UI.
+**Product name:** MuseSwarm
+**Edition tagline:** ZERO — use sparingly (hackathon / submission titles only). Prefer **MuseSwarm** in UI.
 
 ## Motif
 
@@ -28,29 +28,24 @@ Streamlit theme mirrors these in `.streamlit/config.toml`. Native popout uses th
 - Avoid defaulting brand samples to **Inter**, **Roboto**, or system Arial as the “logo font.”
 - UI may use the host stack; wordmark art carries the brand type treatment.
 
-## Assets (Muse Image)
+## Assets (frozen icon)
 
-Regenerate with Meta **muse-image-1.0**:
-
-```bash
-source .venv/bin/activate
-python tools/generate_brand_muse.py
-```
+The icon pixels are frozen and unchanged by the rebrand. Do not regenerate them.
+The MuseSwarm wordmark was composed locally using the existing icon, with no provider call.
 
 | File | Role |
 |------|------|
-| `swarmguard-mark.png` | Transparent lattice shield (RGBA). Shared identity for native panel and console. |
+| `swarmguard-mark.png` | Transparent lattice shield (RGBA). Shared identity for native panel and console; exact original bytes preserved. |
 | `swarmguard-icon-menu.png` | Same transparent lattice shield as the main mark. |
 | `swarmguard-icon-menu-template.png` | 44px transparent black-alpha derivative for 22pt @2x AppKit template tinting. |
 | `swarmguard-icon-menu-dark.png` | Packed light-on-ink preview (docs). |
-| `swarmguard-popout-mock.png` | Muse Image UX target for the native Protector panel. |
-| `swarmguard-wordmark.png` | Optional horizontal lockup (if present). |
+| `museswarm-wordmark.png` | Current horizontal lockup; `swarmguard-wordmark.png` is a compatible asset filename. |
 
 ## Usage
 
 **Do**
 
-- Lead with **SwarmGuard**; say “protector,” “gate,” “activity” — not “War Room.”
+- Lead with **MuseSwarm**; say “protector,” “gate,” “activity” — not “War Room.”
 - Menu bar first; native popout is the everyday UI; Streamlit = advanced console.
 - Keep menu-bar icon high contrast; template mode for macOS tinting.
 - Use `signal` for healthy / enforcing; `danger` for deny / threat; `muted` for idle.
@@ -67,14 +62,14 @@ python tools/generate_brand_muse.py
 
 | Surface | Brand application |
 |---------|-------------------|
-| Menu bar (`menubar.py`) | Template/menu icon on `NSStatusItem`; name SwarmGuard |
+| Menu bar (`menubar.py`) | Template/menu icon on `NSStatusItem`; name MuseSwarm |
 | Native Protector panel | Ink panel, signal status, mark + title, denial list |
-| Protector console (`dashboard.py`) | Mark + SwarmGuard title; theme tokens |
-| Docs / demo video | Mark + popout mock as visual reference |
+| Protector console (`dashboard.py`) | Mark + MuseSwarm title; theme tokens |
+| Docs / demo video | Current wordmark and unchanged mark |
 
 ## Refresh menu bar icon
 
-Quit via **Quit SwarmGuard menu**, then:
+Quit via **Quit MuseSwarm menu**, then:
 
 ```bash
 ./run_menubar.sh
@@ -88,4 +83,4 @@ The former template was fully opaque and appeared as a solid square on macOS.
 The reviewed lattice shield is now the single runtime identity; menu and panel
 color marks are identical, and the small template uses that same alpha shape.
 No runtime logo generation or inference. Inspect light/dark small previews before
-changing these frozen assets. Legacy wordmark/mock artwork is reference only.
+changing these frozen assets. The outdated generated popout mock was retired; it is not runtime or verification evidence.

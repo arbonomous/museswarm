@@ -14,7 +14,7 @@ from meta_agent import BASE_URL,MODEL,TOOLS
 from managed_model import ModelSession,RELAY
 
 WARNING='Paid execution paused. Future Meta use discloses these exact copies and goal; credits can spill to card. No approval is granted by review.'
-SCOPE='Only tasks launched through SwarmGuard. Outside agents and the rest of your Mac are not protected.'
+SCOPE='Only tasks launched through MuseSwarm. Outside agents and the rest of your Mac are not protected.'
 
 @dataclass(frozen=True)
 class Plan:

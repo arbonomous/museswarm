@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tiny fake MCP stdio server for proving the SwarmGuard gate.
+"""Tiny fake MCP stdio server for proving the MuseSwarm gate.
 
 Tools: read_file, run_command.
 Every tools/call is appended to a log file so the harness can assert
@@ -157,7 +157,7 @@ def _handle(msg: dict[str, Any], log_path: Path) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Fake MCP upstream for SwarmGuard proof")
+    parser = argparse.ArgumentParser(description="Fake MCP upstream for MuseSwarm proof")
     parser.add_argument(
         "--log",
         type=Path,

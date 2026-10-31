@@ -1,17 +1,17 @@
-# SWARMGUARD // ZERO — Meta Hackathon Blueprint & Research Brief
-**Tagline:** The autonomous antivirus swarm for the agentic era  
-**Track:** Indie Developer · Themes: Build for Your World + Push the Frontier  
-**Deadline:** Nov 4, 2026 · 9:00 PM ET · Prize pool $1M  
-**Last research sync:** Oct 28, 2026  
+# MUSESWARM // ZERO — Meta Hackathon Blueprint & Research Brief
+**Tagline:** The autonomous antivirus swarm for the agentic era
+**Track:** Indie Developer · Themes: Build for Your World + Push the Frontier
+**Deadline:** Nov 4, 2026 · 9:00 PM ET · Prize pool $1M
+**Last research sync:** Oct 28, 2026
 **Win strategy (read first):** [`WIN_PLAN.md`](./WIN_PLAN.md)
 
 ---
 
 ## 0. One-sentence product
 
-SwarmGuard watches local AI-agent activity, uses **Meta Muse Spark + Muse Wonder + SAM 3.1** to detect prompt-injected / MCP-abusive behavior, **auto-quarantines without asking**, then reports what it did — with sound cues and a War Room incident log.
+MuseSwarm watches local AI-agent activity, uses **Meta Muse Spark + Muse Wonder + SAM 3.1** to detect prompt-injected / MCP-abusive behavior, **auto-quarantines without asking**, then reports what it did — with sound cues and a War Room incident log.
 
-Traditional AV looks for malware files. SwarmGuard looks for **hijacked agents**.
+Traditional AV looks for malware files. MuseSwarm looks for **hijacked agents**.
 
 ---
 
@@ -39,13 +39,13 @@ Click **Enable sound** once → keep **Autonomous mode** on → **Inject event 0
 ## 2. Why this problem is real (research notes)
 
 ### 2.1 Indirect prompt injection is in the wild
-- **Unit 42 (Palo Alto):** web-based indirect prompt injection observed live; concealment includes white-on-white, `opacity:0`, `font-size:0`, off-screen CSS, `display:none`, HTML comments.  
+- **Unit 42 (Palo Alto):** web-based indirect prompt injection observed live; concealment includes white-on-white, `opacity:0`, `font-size:0`, off-screen CSS, `display:none`, HTML comments.
   Source: https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/
-- **HiddenLayer:** hidden injections in repos/comments can hijack coding assistants (e.g. Cursor-class tools) when agents ingest project files.  
+- **HiddenLayer:** hidden injections in repos/comments can hijack coding assistants (e.g. Cursor-class tools) when agents ingest project files.
   Source: https://www.hiddenlayer.com/research/how-hidden-prompt-injections-can-hijack-ai-code-assistants-like-cursor
-- **arXiv “Invisible Prompts, Visible Threats”:** malicious font / glyph tricks + MCP tool channels for sensitive data leakage.  
+- **arXiv “Invisible Prompts, Visible Threats”:** malicious font / glyph tricks + MCP tool channels for sensitive data leakage.
   Source: https://arxiv.org/html/2505.16957
-- README / GitHub honeypot writeups show agents treating untrusted markdown as instructions.  
+- README / GitHub honeypot writeups show agents treating untrusted markdown as instructions.
   Example: https://blog.tripvento.com/i-prompt-injected-my-own-github-readme
 
 **Implication for us:** Attack 01 (poisoned README + white-on-white) is not a toy — it mirrors documented attack classes. Lead the demo with it. Expand concealment library later (opacity-0, zero-width, HTML comments — already partly in Attack 03).
@@ -70,7 +70,7 @@ Sources:
 ### 2.3 What serious defenses look like (so we don’t reinvent naively)
 Research / industry consensus:
 
-| Principle | What it means | SwarmGuard today | Gap / next move |
+| Principle | What it means | MuseSwarm today | Gap / next move |
 |-----------|----------------|------------------|-----------------|
 | **Policy Enforcement Point (PEP)** | Tool calls blocked in the *execution path*, not only in the LLM’s “judgment” | Soft: we analyze + auto-quarantine demo agents | Hard: sit as gateway/proxy between agent and tools |
 | **Deterministic > alignment-only** | Don’t trust the model alone to refuse bad actions | Hybrid: heuristics + Muse + auto action | Add allow/deny rules that fire even if Muse is down |
@@ -85,7 +85,7 @@ Key papers / systems to cite in writeup (not to clone):
 - OpenClaw PRISM — defense-in-depth hooks around tool lifecycle (https://arxiv.org/html/2603.11853)
 - LLM Shield / AISBD — gateway mediation, fail-closed, don’t explain denials back to the agent
 
-**Big strategic lesson:**  
+**Big strategic lesson:**
 LLM-only “antivirus scoring” is impressive in a demo but **weak as a sole control**. Winning narrative = *Muse for perception & forensics* + *deterministic quarantine policy* + *audit*. We already moved to autonomous eliminate+report — keep pushing enforcement credibility.
 
 ---
@@ -94,7 +94,7 @@ LLM-only “antivirus scoring” is impressive in a demo but **weak as a sole co
 
 Public waiver-style weights (community roundups of Meta docs; verify against Official Rules PDF):
 
-| Criterion | Weight | How SwarmGuard wins it | How we lose it |
+| Criterion | Weight | How MuseSwarm wins it | How we lose it |
 |-----------|--------|------------------------|----------------|
 | **Impact** | ~30% | Everyone giving agents terminal + MCP; AV is blind; first-hand builder pain | Sound like a science-fair chatbot wrapper |
 | **Use of Meta tooling** | ~25% | Spark multimodal + Wonder high reasoning + SAM 3.1 on same artifact | Single model / text-only classification |
@@ -136,7 +136,7 @@ Partner credits (claim if useful): Fireworks / Modal / Baseten (~$100 each per l
 - “Production MCP gateway for enterprise” unless we actually proxy tool calls.
 
 ### Honest safety sentence for submission
-> SwarmGuard’s auto-quarantine targets *simulated / instrumented agent threats* in the demo harness. Host process inspection is read-only. Real SIGKILL of user processes is out of scope for safety.
+> MuseSwarm’s auto-quarantine targets *simulated / instrumented agent threats* in the demo harness. Host process inspection is read-only. Real SIGKILL of user processes is out of scope for safety.
 
 ---
 
@@ -195,12 +195,12 @@ Record War Room only (full browser). Enable sound before recording.
 
 | Time | Visual | Narration |
 |------|--------|-----------|
-| 0:00–0:15 | Title / ARMED HUD | “Agents now have terminals and MCP tools. Traditional antivirus can’t see a prompt injection. SwarmGuard is autonomous antivirus for that world.” |
+| 0:00–0:15 | Title / ARMED HUD | “Agents now have terminals and MCP tools. Traditional antivirus can’t see a prompt injection. MuseSwarm is autonomous antivirus for that world.” |
 | 0:15–0:30 | Model chips Spark / Wonder / SAM | “Meta Muse Spark reads the artifact, Wonder writes forensics, SAM isolates the trap.” |
 | 0:30–0:50 | Inject event 01 | “I only inject a poisoned README onto the wire — I don’t approve anything.” |
 | 0:50–1:15 | Live chain + sounds + SAM before/after | “Overwatch sees the white-on-white instruction. Wonder quotes it. SAM boxes it.” |
 | 1:15–1:35 | AUTO-QUARANTINED report | “No kill click. The swarm freezes the rogue agent, quarantines, and reports what it did.” |
-| 1:35–1:45 | Incident log | “Every action is logged. Indie track — SwarmGuard Zero.” |
+| 1:35–1:45 | Incident log | “Every action is logged. Indie track — MuseSwarm Zero.” |
 
 **Backup take:** pre-run once; if API flakes, keep a screen recording of a known-good run as emergency backup (still prefer live).
 
@@ -212,7 +212,7 @@ Record War Room only (full browser). Enable sound before recording.
 [ Agent / MCP / poisoned artifact ]
               │
               ▼
-     SwarmGuard sensor bus
+     MuseSwarm sensor bus
       (telemetry + images)
               │
      ┌────────┴────────┐

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Vigorous SwarmGuard reliability suite.
+"""Vigorous MuseSwarm reliability suite.
 
 Pass criteria per attack scenario:
   - top verdict is CRITICAL THREAT
@@ -320,7 +320,7 @@ def main() -> int:
     started = datetime.now().isoformat(timespec="seconds")
     cases: list[CaseResult] = []
 
-    print(f"=== SwarmGuard stress suite · mode={'smoke' if smoke else 'full'} · rounds={rounds} · {started} ===")
+    print(f"=== MuseSwarm stress suite · mode={'smoke' if smoke else 'full'} · rounds={rounds} · {started} ===")
     print("NOTE: each round hits Muse Spark + Wonder + SAM. Prefer `smoke` to conserve API spend.")
     for c in _local_sanity():
         cases.append(c)

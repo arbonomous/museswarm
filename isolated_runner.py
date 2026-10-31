@@ -140,13 +140,13 @@ def run(image: str, command: list[str], seconds: int = 60) -> int:
         docker(*args)
         data = json.loads(docker("inspect", name).stdout)[0]
         verify_container(data, name, image_id)
-        print("SwarmGuard: verified offline scratch boundary. No host mounts. Not whole-Mac protection.", flush=True)
+        print("MuseSwarm: verified offline scratch boundary. No host mounts. Not whole-Mac protection.", flush=True)
         try:
             result = docker("start", "--attach", name, timeout=seconds)
             print(result.stdout, end="")
             print(result.stderr, end="", file=sys.stderr)
         except subprocess.TimeoutExpired:
-            print("SwarmGuard: time limit reached; stopping only this scratch container.", file=sys.stderr)
+            print("MuseSwarm: time limit reached; stopping only this scratch container.", file=sys.stderr)
             return 124
         state = json.loads(docker("inspect", name).stdout)[0]["State"]
         return int(state["ExitCode"])
@@ -174,5 +174,5 @@ if __name__ == "__main__":
         raise SystemExit(main())
     except (ValueError, FileNotFoundError, subprocess.SubprocessError, KeyError, json.JSONDecodeError) as exc:
         # Never fall back to running the command directly on the Mac.
-        print(f"SwarmGuard refused to launch: {type(exc).__name__}: {exc}", file=sys.stderr)
+        print(f"MuseSwarm refused to launch: {type(exc).__name__}: {exc}", file=sys.stderr)
         raise SystemExit(1)

@@ -19,7 +19,7 @@ class OwnedWorkerValidationTests(unittest.TestCase):
             self.assertEqual(kw['max_completion_tokens'],1600)
             self.assertEqual(kw['reasoning_effort'],'low');self.assertNotIn('tools',kw)
             p=json.loads(kw['messages'][1]['content']);c=p['untrusted_context'];role=p['reviewer_role']
-            report={'role':role,'action_hash':c['action_hash'],'decision':decision,'reason':'Goal hijack','evidence':'Disable SwarmGuard'}
+            report={'role':role,'action_hash':c['action_hash'],'decision':decision,'reason':'Goal hijack','evidence':'Disable MuseSwarm'}
             return S(usage=None,choices=[S(finish_reason='length' if incomplete else 'stop',message=S(content=json.dumps(report),tool_calls=[]))])
         client.chat.completions.create.side_effect=respond
         def docker(*args,**kw):

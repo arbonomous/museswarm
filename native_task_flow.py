@@ -36,7 +36,7 @@ def prepare(source,goal):
 
 
 def review_text(plan):
-    return ('REVIEW ONLY - NOTHING STARTED\nOnly SwarmGuard-owned work is guarded. Other Mac agents are not covered.\n\nGoal:\n'+plan.goal+
+    return ('REVIEW ONLY - NOTHING STARTED\nOnly MuseSwarm-owned work is guarded. Other Mac agents are not covered.\n\nGoal:\n'+plan.goal+
         '\n\nExact source copies:\n'+'\n\n'.join(k+'\n'+v.decode() for k,v in plan.source.items())+
         '\n\n'+WARNING+'\n\nThe task must propose one review artifact. Both defenders must allow it before creation. A refusal stops/removes the worker automatically. No project changes or automatic export.\n\nManifest: '+plan.manifest.fingerprint()+
         ('\n\nStart uses these exact copies and bounded credits. Click Start only if you approve sending them to Meta. Closing review never starts anything.' if NATIVE_LIVE_RELEASED else '\n\nLive Start remains disabled pending coordinated release. Closing review never starts anything.'))

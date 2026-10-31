@@ -120,7 +120,7 @@ def _is_error_result(msg: dict[str, Any]) -> bool:
     for part in result.get("content") or []:
         if isinstance(part, dict) and part.get("type") == "text":
             text += str(part.get("text") or "")
-    return "DENIED" in text or "SwarmGuard" in text and "DENIED" in text.upper()
+    return "DENIED" in text or "MuseSwarm" in text and "DENIED" in text.upper()
 
 
 def main() -> int:

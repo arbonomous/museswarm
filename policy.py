@@ -1,4 +1,4 @@
-"""Fail-closed Policy Enforcement Point (PEP) for SwarmGuard.
+"""Fail-closed Policy Enforcement Point (PEP) for MuseSwarm.
 
 Deterministic host protection — no Muse required, never SIGKILLs.
 Cooperative tools must call gate_* / evaluate_* before acting.

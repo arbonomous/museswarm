@@ -1,7 +1,7 @@
-# Meta Model API + Muse Code — Expert Guide for SwarmGuard // ZERO
-**Source hub:** https://dev.meta.ai/docs/overview  
-**Synced:** Oct 28, 2026  
-**Purpose:** Use Meta’s stack at full capacity for the hackathon — what to call, when, and how it maps to SwarmGuard.
+# Meta Model API + Muse Code — Expert Guide for MuseSwarm // ZERO
+**Source hub:** https://dev.meta.ai/docs/overview
+**Synced:** Oct 28, 2026
+**Purpose:** Use Meta’s stack at full capacity for the hackathon — what to call, when, and how it maps to MuseSwarm.
 
 ---
 
@@ -9,12 +9,12 @@
 
 | Path | What it is | Use it when |
 |------|------------|-------------|
-| **Meta Model API** | Inference HTTP API at `https://api.meta.ai/v1` | Building SwarmGuard (our app/agent) |
+| **Meta Model API** | Inference HTTP API at `https://api.meta.ai/v1` | Building MuseSwarm (our app/agent) |
 | **Muse Code** | Ready-made coding agent CLI (`muse`) | Speeding up *our* development / CI edits |
 
-Docs say it plainly: *Muse Code and the API are two ways to use the same model.*  
-- Call the **API** to build SwarmGuard.  
-- Run **Muse Code** to help *write* SwarmGuard faster.
+Docs say it plainly: *Muse Code and the API are two ways to use the same model.*
+- Call the **API** to build MuseSwarm.
+- Run **Muse Code** to help *write* MuseSwarm faster.
 
 Install Muse Code:
 ```bash
@@ -22,8 +22,8 @@ curl -fsSL https://dev.meta.ai/install.sh | sh
 muse --version
 cd /path/to/swarmguard-zero && muse
 ```
-First run: trust workspace → browser sign-in **or** paste API key.  
-CI / headless: `META_API_KEY=... muse exec "..."`.  
+First run: trust workspace → browser sign-in **or** paste API key.
+CI / headless: `META_API_KEY=... muse exec "..."`.
 Interactive default model note in docs: often `muse-spark-1.2` — for API work prefer **`muse-spark-1.3`** / **`muse-wonder-1.0`**.
 
 ---
@@ -55,7 +55,7 @@ Dashboard: create/rotate keys there. Help Center covers billing & rate limits.
 
 ## 3. Model lineup (what each is for)
 
-| Model ID | Role | Context | SwarmGuard fit |
+| Model ID | Role | Context | MuseSwarm fit |
 |----------|------|---------|----------------|
 | `muse-spark-1.3` | Fast agentic / coding / classification | ~1M tokens | **Guards** (Bloodhound, Wiretap, Overwatch) |
 | `muse-spark-1.3-contributor` | Same family, cheaper, training-allowed | ~1M | Avoid for security narrative if possible |
@@ -67,7 +67,7 @@ Dashboard: create/rotate keys there. Help Center covers billing & rate limits.
 | Muse Spark Open / Glimmer | Open-weight, self-host | — | Partner credits (Fireworks/Modal/Baseten), not required for primary demo |
 
 **Wonder vs Spark rule of thumb (from Meta):**
-- Wonder → longer, harder, multi-file / multi-step where quality > cost  
+- Wonder → longer, harder, multi-file / multi-step where quality > cost
 - Spark → high-volume, latency-sensitive loops (our per-guard scoring)
 
 Same request shapes work on both: swap model ID only.
@@ -84,7 +84,7 @@ All three: **same models, same auth, same $/token**. Difference = wire format + 
 | **Chat Completions** | `POST /v1/chat/completions` | **No** (each turn re-reasons from scratch for external keys) | Simple drop-in OpenAI code, single-shot JSON scoring |
 | **Messages** | `POST /v1/messages` (Anthropic host `https://api.meta.ai`) | Yes via Anthropic thinking replay | Claude Code / Anthropic SDK tools |
 
-### SwarmGuard recommendation
+### MuseSwarm recommendation
 | Component | Protocol today | Upgrade path |
 |-----------|----------------|--------------|
 | Spark guards | Chat Completions | Fine for single-shot scores |
@@ -93,14 +93,14 @@ All three: **same models, same auth, same $/token**. Difference = wire format + 
 | Future “mission policy agent” | Responses | Required for reasoning continuity |
 
 ### Responses context modes
-1. **Stateless encrypted replay (recommended):** resend conversation; include `include: ["reasoning.encrypted_content"]` and replay `reasoning` items.  
+1. **Stateless encrypted replay (recommended):** resend conversation; include `include: ["reasoning.encrypted_content"]` and replay `reasoning` items.
 2. **Server-managed:** pass `previous_response_id` and only send new input.
 
 ### Chat Completions roles (order of power)
-- `developer` — highest precedence instructions (prefer over `system`)  
-- `system` — accepted, same level as developer  
-- `user` — **images only allowed here**  
-- `assistant` / `tool` — history & tool results  
+- `developer` — highest precedence instructions (prefer over `system`)
+- `system` — accepted, same level as developer
+- `user` — **images only allowed here**
+- `assistant` / `tool` — history & tool results
 
 ---
 
@@ -118,7 +118,7 @@ Muse Wonder & Spark **always** reason. Internal tokens are private, but they:
 | `medium` / `high` | Deeper — forensics |
 | `xhigh` / `max` | Hardest problems; `max` on `muse-wonder-1.0` & `muse-spark-1.3` (not contributor) |
 
-**Chat Completions:** top-level `reasoning_effort`  
+**Chat Completions:** top-level `reasoning_effort`
 **Responses:** `reasoning: { "effort": "high", "summary": "auto" }`
 
 **Hackathon lesson we already hit:** if `max_completion_tokens` is too small, the model spends the whole budget on hidden reasoning and returns **empty `content`**. Always leave headroom (we use ~1600–3500).
@@ -127,7 +127,7 @@ Optional Responses feature: `reasoning.summary` = `auto` | `concise` | `detailed
 
 ---
 
-## 6. Capabilities map → SwarmGuard features
+## 6. Capabilities map → MuseSwarm features
 
 ### Already using
 | Capability | Doc concept | Our use |
@@ -172,7 +172,7 @@ response_format={
   }
 }
 ```
-Constraints: no recursive schemas; nesting ≤10; every object needs `additionalProperties: false` + all props in `required` when `strict: true`.  
+Constraints: no recursive schemas; nesting ≤10; every object needs `additionalProperties: false` + all props in `required` when `strict: true`.
 Pydantic shortcut: `client.beta.chat.completions.parse(..., response_format=MyModel)`.
 
 ### Image understanding rules
@@ -213,16 +213,16 @@ muse logout                   # clear stored creds (not env vars)
 - Workflows (parallel agents — not on every build)
 
 ### Hackathon tip
-Use Muse Code to **build** SwarmGuard, but keep the **product story** on Model API (Spark/Wonder/SAM) so the submission clearly shows API usage. Mention Muse Code in “how we built it” if it helped — it still counts as Meta tooling fluency.
+Use Muse Code to **build** MuseSwarm, but keep the **product story** on Model API (Spark/Wonder/SAM) so the submission clearly shows API usage. Mention Muse Code in “how we built it” if it helped — it still counts as Meta tooling fluency.
 
 ---
 
 ## 8. Pricing / mode awareness (don’t surprise yourself)
 
-- **Standard mode** (`muse-spark-1.3`, `muse-wonder-1.0`): content not used for training (per docs).  
-- **Contributor mode** (`*-contributor`): cheaper; may use content for training.  
-- Reasoning tokens cost like output tokens.  
-- Voice Transcribe listed around **$0.18/hour** in overview.  
+- **Standard mode** (`muse-spark-1.3`, `muse-wonder-1.0`): content not used for training (per docs).
+- **Contributor mode** (`*-contributor`): cheaper; may use content for training.
+- Reasoning tokens cost like output tokens.
+- Voice Transcribe listed around **$0.18/hour** in overview.
 - Always check live: https://dev.meta.ai/docs → Pricing and rate limits.
 
 For a **security product**, prefer Standard mode in demos/narration.
@@ -248,28 +248,28 @@ curl -H "Authorization: Bearer $MODEL_API_KEY" https://api.meta.ai/v1/models
 
 ---
 
-## 10. “Full capacity” playbook for SwarmGuard (next builds)
+## 10. “Full capacity” playbook for MuseSwarm (next builds)
 
 ### A. Reliability (do ASAP)
-1. Switch guard + forensic JSON to **`response_format` json_schema** (no more fence/regex hope).  
-2. Log `usage.reasoning_tokens` in the War Room proof chips (shows Muse “thinking spend”).  
+1. Switch guard + forensic JSON to **`response_format` json_schema** (no more fence/regex hope).
+2. Log `usage.reasoning_tokens` in the War Room proof chips (shows Muse “thinking spend”).
 3. On Wonder path, request **`reasoning.summary: "auto"`** via Responses and display it.
 
 ### B. Agentic depth (tooling score)
 1. Move Wonder investigation to **Responses API** with tools:
    - `read_artifact`, `run_sam`, `quarantine`, `write_incident`
-2. Keep Spark for fast parallel guard fan-out; Wonder orchestrates.  
+2. Keep Spark for fast parallel guard fan-out; Wonder orchestrates.
 3. Fail-closed deterministic rules *beside* Muse (paths/egress) — industry best practice.
 
 ### C. Showcase Meta surface area
-1. Muse Image → generate 3 poisoned pages for the demo corpus.  
-2. Optional Voice Transcribe → “speak the incident report.”  
+1. Muse Image → generate 3 poisoned pages for the demo corpus.
+2. Optional Voice Transcribe → “speak the incident report.”
 3. Cite Models page IDs verbally in the 2-minute video.
 
 ### D. Don’t waste capacity
-1. Don’t put Wonder on every 500ms patrol tick.  
-2. Don’t use `max` reasoning for “is this .env read bad?”  
-3. Don’t depend on Contributor mode for the privacy story.  
+1. Don’t put Wonder on every 500ms patrol tick.
+2. Don’t use `max` reasoning for “is this .env read bad?”
+3. Don’t depend on Contributor mode for the privacy story.
 4. Don’t rebuild the Tk widget — Meta API excellence shows in the War Room.
 
 ---
@@ -310,20 +310,20 @@ messages = [
 
 ## 12. Doc index (read in this order)
 
-1. Overview — https://dev.meta.ai/docs/overview  
-2. Quickstart — https://dev.meta.ai/docs/quickstart  
-3. Choosing an API — https://dev.meta.ai/docs/protocols  
-4. Models — https://dev.meta.ai/docs/models  
-5. Reasoning — https://dev.meta.ai/docs/features/reasoning  
-6. Structured output — https://dev.meta.ai/docs/features/structured-output  
-7. Image understanding — https://dev.meta.ai/docs/image-understanding  
-8. Media segmentation (SAM) — https://dev.meta.ai/docs/media-segmentation  
-9. Tool calling — (from overview Capabilities)  
-10. Muse Code — https://dev.meta.ai/docs/muse-code  
-11. Muse Code auth — https://dev.meta.ai/docs/muse-code/auth  
-12. API reference — https://dev.meta.ai/docs/api-reference/  
-13. Pricing & rate limits — linked from overview  
-14. Cookbook — copy-paste recipes  
+1. Overview — https://dev.meta.ai/docs/overview
+2. Quickstart — https://dev.meta.ai/docs/quickstart
+3. Choosing an API — https://dev.meta.ai/docs/protocols
+4. Models — https://dev.meta.ai/docs/models
+5. Reasoning — https://dev.meta.ai/docs/features/reasoning
+6. Structured output — https://dev.meta.ai/docs/features/structured-output
+7. Image understanding — https://dev.meta.ai/docs/image-understanding
+8. Media segmentation (SAM) — https://dev.meta.ai/docs/media-segmentation
+9. Tool calling — (from overview Capabilities)
+10. Muse Code — https://dev.meta.ai/docs/muse-code
+11. Muse Code auth — https://dev.meta.ai/docs/muse-code/auth
+12. API reference — https://dev.meta.ai/docs/api-reference/
+13. Pricing & rate limits — linked from overview
+14. Cookbook — copy-paste recipes
 
 ---
 

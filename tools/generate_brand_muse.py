@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate SwarmGuard brand assets with Muse Image (Meta Model API).
+"""Generate MuseSwarm brand assets with Muse Image (Meta Model API).
 
 Usage:
   source .venv/bin/activate
@@ -31,7 +31,7 @@ MODEL = os.getenv("META_IMAGE_MODEL", "muse-image-1.0")
 
 PROMPTS = {
     "swarmguard-mark.png": (
-        "App icon logo mark for a cybersecurity product named SwarmGuard. "
+        "App icon logo mark for a cybersecurity product named MuseSwarm. "
         "Minimal flat vector style: a modern heraldic shield silhouette filled with a subtle "
         "network of small nodes and thin edges (a swarm lattice), not a bug or insect. "
         "Primary color signal green #3DD68C on deep ink background #0A0D12. "
@@ -47,10 +47,10 @@ PROMPTS = {
         "Square canvas, icon centered with padding."
     ),
     "swarmguard-popout-mock.png": (
-        "UI mockup screenshot of a macOS menu-bar popover panel for SwarmGuard antivirus. "
+        "UI mockup screenshot of a macOS menu-bar popover panel for MuseSwarm antivirus. "
         "Dark theme: background #0A0D12, panel surface #121821, text #E8EDF5, accents #3DD68C, "
         "danger red #FF4D4D for a short denial list. "
-        "Top: small shield mark + title 'SwarmGuard'. "
+        "Top: small shield mark + title 'MuseSwarm'. "
         "Status line 'Protecting · Enforce ON'. "
         "MCP gate idle. List of 3 recent denials. "
         "Rounded buttons: Refresh, Run free proofs. "
@@ -130,6 +130,7 @@ def make_dark_preview() -> None:
 
 
 def main() -> int:
+    raise SystemExit("Brand generation is frozen. Preserve the approved MuseSwarm icon; obtain explicit approval before replacing it or calling a paid provider.")
     client = _client()
     only = sys.argv[1:] if len(sys.argv) > 1 else list(PROMPTS)
     for name in only:

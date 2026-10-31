@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SwarmGuard MCP stdio policy proxy — deny before upstream, log to threat_bus.
+"""MuseSwarm MCP stdio policy proxy — deny before upstream, log to threat_bus.
 
 Usage:
   python mcp_proxy.py -- <upstream-cmd> [args...]
@@ -114,7 +114,7 @@ def _log_policy_deny(
             "executive_summary": verdict.reason,
             "action": "POLICY_DENY",
             "action_detail": (
-                f"SwarmGuard MCP proxy denied `{tool_name}` via rule `{verdict.rule}` "
+                f"MuseSwarm MCP proxy denied `{tool_name}` via rule `{verdict.rule}` "
                 f"before the upstream server saw the call."
             ),
             "tool_name": tool_name,
@@ -272,7 +272,7 @@ class McpProxy:
             await self._write_client(
                 _tool_error_result(
                     msg.get("id"),
-                    f"[SwarmGuard] DENIED — {verdict.reason} (rule={verdict.rule})",
+                    f"[MuseSwarm] DENIED — {verdict.reason} (rule={verdict.rule})",
                 )
             )
             return True
@@ -347,7 +347,7 @@ class McpProxy:
                 await self._write_client(
                     _tool_error_result(
                         msg.get("id"),
-                        "[SwarmGuard] DENIED — tool result looked like secrets (result scan)",
+                        "[MuseSwarm] DENIED — tool result looked like secrets (result scan)",
                     )
                 )
                 self._heartbeat(f"scrubbed result {tool_name}")
@@ -368,7 +368,7 @@ class McpProxy:
             await self._write_client(
                 _tool_error_result(
                     msg.get("id"),
-                    f"[SwarmGuard] DENIED by Muse — {spark.get('explanation', 'critical')[:300]}",
+                    f"[MuseSwarm] DENIED by Muse — {spark.get('explanation', 'critical')[:300]}",
                 )
             )
             self._heartbeat(f"muse denied result {tool_name}")
@@ -481,7 +481,7 @@ class McpProxy:
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="SwarmGuard MCP stdio policy proxy",
+        description="MuseSwarm MCP stdio policy proxy",
         epilog="Separate upstream command with --  e.g. python mcp_proxy.py -- python fake_mcp.py",
     )
     parser.add_argument(

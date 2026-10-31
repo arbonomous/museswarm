@@ -1,4 +1,4 @@
-"""Synthetic HUD sound cues for SwarmGuard (no external audio assets required)."""
+"""Synthetic HUD sound cues for MuseSwarm (no external audio assets required)."""
 
 from __future__ import annotations
 

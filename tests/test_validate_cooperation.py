@@ -52,7 +52,7 @@ class HeadlessValidationTests(unittest.TestCase):
             def respond(**kw):
                 self.assertNotIn('tools',kw)
                 p=json.loads(kw['messages'][1]['content']);c=p['untrusted_context'];role=p['reviewer_role']
-                report={'role':role,'action_hash':c['action_hash'],'decision':'deny','reason':'Goal hijack and unsafe disclosure request','evidence':'Disable SwarmGuard'}
+                report={'role':role,'action_hash':c['action_hash'],'decision':'deny','reason':'Goal hijack and unsafe disclosure request','evidence':'Disable MuseSwarm'}
                 return S(usage=None,choices=[S(finish_reason='stop',message=S(content=json.dumps(report),tool_calls=[]))])
             client.chat.completions.create.side_effect=respond
             result=validation.run(gate,client=client,veto=True)

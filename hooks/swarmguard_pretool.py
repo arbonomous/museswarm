@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SwarmGuard IDE policy gate — Cursor + Claude Code PreToolUse / shell / read / MCP.
+"""MuseSwarm IDE policy gate — Cursor + Claude Code PreToolUse / shell / read / MCP.
 
 Reads hook JSON on stdin, evaluates via policy (no Muse / Meta API), writes a
 permission decision on stdout. Fail-closed on empty/invalid input when possible.
@@ -128,7 +128,7 @@ def _log_deny(
             "executive_summary": verdict.reason,
             "action": "POLICY_DENY",
             "action_detail": (
-                f"SwarmGuard IDE hook denied `{tool_name}` via rule `{verdict.rule}` "
+                f"MuseSwarm IDE hook denied `{tool_name}` via rule `{verdict.rule}` "
                 f"(event={event or 'preToolUse'}). No SIGKILL; policy deny only."
             ),
             "tool_name": tool_name,
@@ -176,7 +176,7 @@ def _response(permission: str, reason: str, *, event: str = "PreToolUse") -> dic
 def main() -> int:
     raw = sys.stdin.read()
     if not raw.strip():
-        reason = "SwarmGuard IDE hook: empty payload (fail-closed)"
+        reason = "MuseSwarm IDE hook: empty payload (fail-closed)"
         _log_deny(
             tool_name="unknown",
             arguments={},
@@ -190,7 +190,7 @@ def main() -> int:
     try:
         payload = json.loads(raw)
     except json.JSONDecodeError:
-        reason = "SwarmGuard IDE hook: invalid JSON payload (fail-closed)"
+        reason = "MuseSwarm IDE hook: invalid JSON payload (fail-closed)"
         _log_deny(
             tool_name="unknown",
             arguments={},
@@ -202,7 +202,7 @@ def main() -> int:
         return 0
 
     if not isinstance(payload, dict):
-        reason = "SwarmGuard IDE hook: non-object payload (fail-closed)"
+        reason = "MuseSwarm IDE hook: non-object payload (fail-closed)"
         json.dump(_response("deny", reason), sys.stdout)
         sys.stdout.write("\n")
         return 0
@@ -210,7 +210,7 @@ def main() -> int:
     tool_name, arguments, verdict, event = _decide(payload)
     if verdict.decision == "deny":
         _log_deny(tool_name=tool_name, arguments=arguments, verdict=verdict, event=event)
-        reason = f"[SwarmGuard] DENIED — {verdict.reason} (rule={verdict.rule})"
+        reason = f"[MuseSwarm] DENIED — {verdict.reason} (rule={verdict.rule})"
         json.dump(_response("deny", reason, event=event or "PreToolUse"), sys.stdout)
         sys.stdout.write("\n")
         return 0
@@ -224,7 +224,7 @@ if __name__ == "__main__":
     try:
         raise SystemExit(main())
     except Exception as exc:  # fail-closed: deny on unexpected errors
-        reason = f"[SwarmGuard] IDE hook error (fail-closed): {exc}"
+        reason = f"[MuseSwarm] IDE hook error (fail-closed): {exc}"
         try:
             append_incident(
                 {

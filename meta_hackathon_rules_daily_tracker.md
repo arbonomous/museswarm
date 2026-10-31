@@ -1,9 +1,9 @@
 # Meta Global AI Developer Hackathon — Official Rules & Live Tracker
-**Last Synced:** Wednesday, October 28, 2026 (evening check)  
+**Last Synced:** Wednesday, October 28, 2026 (evening check)
 **Official Event Pages:**
 * Cerebral Valley: `https://cerebralvalley.ai/e/meta-ai-developer-hackathon`
-* Meta Dev: `https://dev.meta.ai/events/global-hackathon`  
-**Total Prize Pool:** $1,000,000 USD  
+* Meta Dev: `https://dev.meta.ai/events/global-hackathon`
+**Total Prize Pool:** $1,000,000 USD
 **Days Remaining to Submit:** ~7 days (deadline Nov 4 @ 9:00 PM ET)
 
 ---
@@ -78,7 +78,7 @@
   * Partner credits corrected: Fireworks **$100** (not $25); added **Baseten $100 + 2M TPM**.
   * Tooling list expanded: Muse Wonder, Muse Code called out on official pages.
   * Added full key-date timeline + eligibility reminders + Official Rules acceptance checkbox.
-  * Focus remains Indie Track submission: **SWARMGUARD // ZERO**.
+  * Focus remains Indie Track submission: **MUSESWARM // ZERO**.
 * **[Oct 28, 2026 — builder status]:**
   * Accepted: **yes** (Indie solo).
   * Meta Model API: **yes** (~$20 loaded; hackathon free credits not redeemed yet).

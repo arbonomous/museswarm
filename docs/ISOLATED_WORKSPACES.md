@@ -170,8 +170,8 @@ configuration. Menu labels/layout still need an actual Mac screenshot check.
 ## End-to-end native preview flow
 
 1. Click the shared shield mark. The dropdown contains only basic commands:
-   Open SwarmGuard, Safety check, Activity, Workspace, Quit.
-2. Open SwarmGuard shows native status with the same shield and a primary Run
+   Open MuseSwarm, Safety check, Activity, Workspace, Quit.
+2. Open MuseSwarm shows native status with the same shield and a primary Run
    safety check action. Tool-connection and scope explanations live here, not as
    diagnostic rows flooding the dropdown.
 3. Safety check opens its native section in the popout without silently starting.
@@ -418,7 +418,7 @@ These tests do not certify actual native layout, OrbStack containment or live
 intelligence. The new native section is visually unverified and is not ready for
 an unqualified UI-completion claim. No additional Mac test is requested now.
 
-Scope is shown in the product: only tasks launched through SwarmGuard can be
+Scope is shown in the product: only tasks launched through MuseSwarm can be
 managed. Other agents and the rest of the Mac are outside this boundary. This
 is an entry point toward autonomous computer protection, not host-wide policing.
 

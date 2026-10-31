@@ -1,4 +1,4 @@
-"""AI-agent attack catalog and how SwarmGuard defends each class.
+"""AI-agent attack catalog and how MuseSwarm defends each class.
 
 Coverage legend used by the UI:
   gate   — deterministic policy PEP (policy.py) can DENY before execution
@@ -132,7 +132,7 @@ THREAT_CATALOG: list[dict[str, Any]] = [
         "id": "social_override",
         "name": "Social / policy override",
         "plain": "Agent tells the user to disable security or paste secrets into chat.",
-        "examples": ["ignore SwarmGuard", "paste your API key here"],
+        "examples": ["ignore MuseSwarm", "paste your API key here"],
         "coverage": "muse",
         "defense": "Forensics flags override language; UI never auto-disables the gate.",
     },
@@ -171,7 +171,7 @@ THREAT_CATALOG: list[dict[str, Any]] = [
     {
         "id": "ide_bypass",
         "name": "IDE agent bypass",
-        "plain": "Cursor/Claude runs tools without consulting SwarmGuard.",
+        "plain": "Cursor/Claude runs tools without consulting MuseSwarm.",
         "examples": ["native agent tool call with no PEP"],
         "coverage": "gate",
         "defense": "Cursor/Claude PreToolUse hook (`hooks/swarmguard_pretool.py`) + MCP proxy; soft-allow only for benign unknowns.",
@@ -192,7 +192,7 @@ def coverage_rows() -> list[dict[str, str]]:
             {
                 "Attack": t["name"],
                 "In plain English": t["plain"],
-                "SwarmGuard": label[t["coverage"]],
+                "MuseSwarm": label[t["coverage"]],
             }
         )
     return rows

@@ -1,5 +1,5 @@
 #!/bin/zsh
-# Launch SwarmGuard macOS menu-bar Protector (rumps or AppKit) — primary UX.
+# Launch MuseSwarm macOS menu-bar Protector (rumps or AppKit) — primary UX.
 # Open Protector → native NSPanel (not browser). Streamlit is optional advanced console.
 # Does not replace MCP proxy / Cursor hooks. Single process: exec + PID lock.
 cd "$(dirname "$0")"
@@ -31,8 +31,8 @@ if [[ -f "$PID_FILE" ]]; then
   if [[ "$old_pid" == <-> ]] && kill -0 "$old_pid" 2>/dev/null; then
     cmd="$(ps -p "$old_pid" -o command= 2>/dev/null || true)"
     if [[ "$cmd" == *menubar.py* ]]; then
-      echo "[SWARMGUARD] Menu bar already running (pid $old_pid)."
-      echo "  Quit via the SG / SG! menu → Quit SwarmGuard menu, then relaunch."
+      echo "[MUSESWARM] Menu bar already running (pid $old_pid)."
+      echo "  Quit via the MuseSwarm menu → Quit MuseSwarm menu, then relaunch."
       echo "  Stale lock only: rm $PID_FILE"
       exit 0
     fi
@@ -40,7 +40,7 @@ if [[ -f "$PID_FILE" ]]; then
 fi
 
 PY="$(pick_python)" || {
-  echo "[SWARMGUARD] No rumps / AppKit Python found."
+  echo "[MUSESWARM] No rumps / AppKit Python found."
   echo "  Activate .venv and add rumps (see requirements.txt), or install PyObjC."
   exit 1
 }

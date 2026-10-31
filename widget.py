@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Always-on-top SwarmGuard floating HUD.
+"""Always-on-top MuseSwarm floating HUD.
 
 Drawn on a Canvas so macOS system Tk actually shows colors (Labels often render
 as blank white on deprecated Aqua Tk). Uses a normal always-on-top window so
@@ -20,7 +20,7 @@ def _require_tk():
         return
     except ModuleNotFoundError as exc:
         sys.stderr.write(
-            "\n[SWARMGUARD] This Python has no Tk support.\n"
+            "\n[MUSESWARM] This Python has no Tk support.\n"
             "Run:  /usr/bin/python3 widget.py\n"
             f"Detail: {exc}\n"
         )
@@ -50,7 +50,7 @@ DIM = "#1b2433"
 class SwarmGuardWidget(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
-        self.title("SWARMGUARD // ZERO")
+        self.title("MUSESWARM // ZERO")
         self.configure(bg=BG)
         self.attributes("-topmost", True)
         self.resizable(False, False)
@@ -116,7 +116,7 @@ class SwarmGuardWidget(tk.Tk):
     def _draw_armed(self, detail: str) -> None:
         self._draw_frame(ARMED)
         self.canvas.create_text(
-            28, 34, anchor="w", text="SWARMGUARD // ZERO", fill=INK, font=("Helvetica", 12, "bold")
+            28, 34, anchor="w", text="MUSESWARM // ZERO", fill=INK, font=("Helvetica", 12, "bold")
         )
         self.canvas.create_text(
             W - 28, 34, anchor="e", text="LIVE", fill=ARMED, font=("Menlo", 10, "bold")
@@ -151,7 +151,7 @@ class SwarmGuardWidget(tk.Tk):
         summary = str(state.get("summary") or "Critical threat detected.")
 
         self.canvas.create_text(
-            28, 34, anchor="w", text="SWARMGUARD // ZERO", fill=INK, font=("Helvetica", 12, "bold")
+            28, 34, anchor="w", text="MUSESWARM // ZERO", fill=INK, font=("Helvetica", 12, "bold")
         )
         self.canvas.create_text(
             W - 28, 34, anchor="e", text="ALERT", fill=THREAT, font=("Menlo", 10, "bold")
@@ -235,7 +235,7 @@ class SwarmGuardWidget(tk.Tk):
 def main() -> None:
     read_state()
     app = SwarmGuardWidget()
-    print("SWARMGUARD HUD running — leave this terminal open.", flush=True)
+    print("MUSESWARM HUD running — leave this terminal open.", flush=True)
     app.mainloop()
 
 
