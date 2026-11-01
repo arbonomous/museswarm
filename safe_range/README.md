@@ -50,3 +50,8 @@ SWARMGUARD_ENFORCE=0 python safe_range/run_live_probe.py
 ```
 
 Expect: sink logs a canary hit, MuseSwarm returns CRITICAL + quotes (uses Meta API).
+
+
+## Balanced offline evaluation
+
+Run `python safe_range/evaluate_gate_balance.py` without credentials or Docker. It reports known benign denials and the IDE opaque-script allowance alongside scoped malicious denials and mocked artifact completion. Expected-policy matches are not a security pass rate. See [offline reproduction and limits](../tests/OFFLINE_TESTING.md) and [Nov 1 fixture evidence](evidence/gate-balance-2026-11-01.json). This does not prove real macOS protection or recovery.
