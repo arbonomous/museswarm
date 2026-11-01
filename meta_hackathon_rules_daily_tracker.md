@@ -1,10 +1,10 @@
 # Meta Global AI Developer Hackathon — Official Rules & Live Tracker
-**Last Synced:** Wednesday, October 28, 2026 (evening check)
+**Last Synced:** Sunday, November 1, 2026 (guide, rules and submission form read directly)
 **Official Event Pages:**
 * Cerebral Valley: `https://cerebralvalley.ai/e/meta-ai-developer-hackathon`
 * Meta Dev: `https://dev.meta.ai/events/global-hackathon`
 **Total Prize Pool:** $1,000,000 USD
-**Days Remaining to Submit:** ~7 days (deadline Nov 4 @ 9:00 PM ET)
+**Deadline:** Wednesday Nov 4 @ 9:00 PM Eastern / 8:00 PM America/Chicago. Target submission: Tuesday Nov 3.
 
 ---
 
@@ -27,11 +27,11 @@
 ### Selected Track: Indie Developer Track
 * **Who it's for:** Individual builders and students.
 * **How You Are Judged (public summary):** Creativity, technical ambition, and whether it works.
-* **Internal score weights we are optimizing for (from earlier brief — verify against Official Rules PDF if posted in Discord):**
+* **Formal rules scoring, verified Nov 1:**
   1. **Creativity & Ambition**
   2. **Impact (30%):** Does it solve a high-stakes, real-world problem?
   3. **Use of Meta AI Tooling (25%):** Deep integration of Meta's newest models (Llama / Muse Spark / Muse Wonder / Muse Image / SAM 3.1 / Meta Model API / Muse Code).
-  4. **Demo Quality & Reliability (25%):** Does the 2-minute demo video clearly prove the product works end-to-end?
+  4. **Demo Quality & Reliability (25%):** Does the three-minute demo video clearly prove the product works end-to-end?
   5. **Technical Execution (20%):** Does it actually work cleanly without crashing?
 
 ### Target Themes (Our project bridges both!)
@@ -54,8 +54,8 @@
 ---
 
 ## 4. Mandatory Submission Checklist (Due Nov 4 @ 9:00 PM ET)
-- [ ] **Working Code Repository (GitHub):** Must clearly show the work built during the hackathon window (Oct 26 – Nov 4).
-- [ ] **Demo Video (Max 2 Minutes):** Uploaded to YouTube, Loom, or Vimeo. Must show the actual working software (no slide-deck-only pitches).
+- [ ] **Public Working Code Repository (GitHub):** Must clearly show the work built during the hackathon window (Oct 26 – Nov 4).
+- [ ] **Three-Minute Demo Video:** Uploaded to YouTube, Loom, or Vimeo. Must show the actual working software (no slide-deck-only pitches).
 - [ ] **Written Description:** Clear summary of the problem, how Meta models power the architecture, and which track/theme you are entering.
 - [ ] **Rule Compliance:** No pre-built projects passed off as new; any boilerplate must be disclosed, with all core agent swarm logic built during the event.
 - [ ] **Official Rules accepted:** Confirm you accepted the Official Rules published for selected participants (check Discord / portal).
@@ -79,9 +79,21 @@
   * Tooling list expanded: Muse Wonder, Muse Code called out on official pages.
   * Added full key-date timeline + eligibility reminders + Official Rules acceptance checkbox.
   * Focus remains Indie Track submission: **MUSESWARM // ZERO**.
-* **[Oct 28, 2026 — builder status]:**
-  * Accepted: **yes** (Indie solo).
-  * Meta Model API: **yes** (~$20 loaded; hackathon free credits not redeemed yet).
-  * Fireworks / Modal / Baseten: **not claimed yet** — claim from Discord `#resources` / acceptance email when ready.
-  * Official Rules acceptance: **confirm in portal/Discord** (likely done; verify once).
-  * Build decision: demo-first with **simulated attacks** + live **muse-spark-1.3** scoring; Kill button is safe (no real SIGKILL).
+* **[Oct 28, 2026 - historical builder snapshot]:** Earlier account balances, credit-claim status and simulated-only build notes have been removed from the live checklist. They are not current account evidence or build directives. See WIN_PLAN section 0 and README for current scoped capabilities and unproven whole-computer coverage.
+
+
+## 7. Nov 1 stream-note reconciliation
+
+Four educational stream summaries are integrated into [`WIN_PLAN.md`, section 0](./WIN_PLAN.md#0-stream-guidance-integrated-on-nov-1-2026). They do not override official requirements or authorize spend, terms acceptance or submission.
+
+- Live guide and form agree on **three minutes**, superseding this tracker's older two-minute text.
+- Formal rules confirm Impact 30%, Meta Tooling 25%, Technical Depth & Execution 20%, Demo 25%; up to four participants, solo allowed.
+- Guide requires a public repo, event-built contributions clearly identified and rights to code/data/assets. Formal rules permit technical assistance and license-compliant OSS that the submission enhances or builds upon. This is not a finding that all current assets/dependencies are cleared.
+- Current guide offers Fireworks $100 to selected teams; the kickoff summary's $25 is stale. Credit amounts are offers, not confirmed balances. No new claim or purchase follows from this update.
+- Broad organizer-use rights and ownership warranties require final owner review. Reading the rules does not establish that acceptance occurred.
+- Guide says Nov 5-8 judging, Nov 9 closing/live finals and Nov 16 community-vote announcement; formal rules leave bonus categories/allocations discretionary and mention additional prize announcements on/about Nov 10. Do not treat stream bonus amounts/categories as guaranteed.
+- Official sources: [guide](https://cerebralvalley.ai/e/meta-ai-developer-hackathon/details), [rules](https://cerebralvalley.ai/e/meta-ai-developer-hackathon/waiver), [form](https://cerebralvalley.ai/e/meta-ai-developer-hackathon/hackathon/submit). No form edits, acceptance or submission were performed. Discord coverage remains unverified.
+
+### Event-window provenance
+
+The official guide lists Oct 26 kickoff and a building period of Oct 27-Nov 4. Earlier project records use Oct 26-Nov 4 as the event window. Retain exact commit dates and describe actual work truthfully; do not silently recast Oct 26 work as Oct 27. Final submission should clearly identify event-built contributions and any prior code.

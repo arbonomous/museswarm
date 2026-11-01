@@ -1,7 +1,7 @@
 # MuseSwarm // ZERO — Win Plan
 **Goal:** Place as high as possible in the Meta Global AI Developer Hackathon (Indie Track).
-**Deadline:** Tuesday, Nov 4, 2026 · 9:00 PM ET (submit by ~6:00 PM ET).
-**Today’s date when written:** Wednesday, Oct 28, 2026 → **~7 days left.**
+**Deadline:** Wednesday, Nov 4, 2026 · 9:00 PM Eastern / 8:00 PM America/Chicago. Target submission: Tuesday, Nov 3.
+**Last planning update:** Sunday, Nov 1, 2026. Earlier sections below are historical strategy where superseded by section 0.
 
 Product name **MuseSwarm**; **ZERO** is the edition tagline (use sparingly). Brand mark + tokens: [`assets/brand/BRAND.md`](./assets/brand/BRAND.md) · mark: [`assets/brand/swarmguard-mark.png`](./assets/brand/swarmguard-mark.png).
 
@@ -15,6 +15,49 @@ This file is the single “make it make sense” plan. Everything else supports 
 | `meta_model_api_muse_code_expert_guide.md` | How to use Meta stack at full capacity |
 | `meta_hackathon_rules_daily_tracker.md` | Live rules / dates / credits |
 | `README.md` | How a stranger runs the demo |
+
+---
+
+## 0. Stream guidance integrated on Nov 1, 2026
+
+This section takes precedence over older scope, timing, scoring and submission advice below. It distills four participant-supplied Granola summaries of the kickoff, Agents 101, Agents 102, and Fireworks workshops. These are secondary notes, not verbatim recordings, official rules, or proof that a product feature works. Raw notes, personal details and access-bearing share links are deliberately omitted.
+
+### Current product truth and build gate
+
+The product goal remains autonomous whole-computer protection, macOS first, with Windows/Linux later. Project hooks, an MCP wrapper, a selected-task workspace and a convincing attack demo are narrower evidence, not substitutes for that goal. Current shipped source proves scoped controls only. Whole-Mac enforcement, authenticated privileged helper boundaries, reboot recovery, uninstall safety and egress coverage remain unproven. Native live execution is disabled (`NATIVE_LIVE_RELEASED=False`). Do not change that gate, install a host helper, request new permissions or spend credits as a consequence of these notes.
+
+### Workshop lessons turned into work
+
+| Source session | Useful lesson | MuseSwarm action and proof needed |
+|---|---|---|
+| Kickoff (Oct 26) | Original work, real impact, Meta tooling, technical depth and a working demo matter more than a generic wrapper. | Show the specific event-built contribution, a real blocked action and the evidence behind the result. Separate existing dependencies from original code. Do not imply broad protection from a narrow harness. |
+| Agents 101 (Oct 27) | Plan / act / observe loops need a checklist, recorded tool evidence and resumable progress. A plausible final answer is not verification. | Preserve action intent, approved scope, tool output, before/after state and cleanup in the incident trail. Test interrupted runs and recovery before claiming resumability. |
+| Agents 102 (Oct 28) | Verification must be unavoidable, with deterministic checks before model judgment. Critical checks block the next action; retries need a hard bound. Restrict tool access and separate builder/reviewer permissions. | Keep schema, allowlist, manifest, budget and exact-readback checks in the execution path. A model verdict must never override a deny or expand authority. Test malformed proposals, missing evidence, denied tools, changed inputs, uncertain stop and recovery. Reviewer output is evidence, not permission. |
+| Fireworks (Oct 30) | Evaluate on the actual task. More reasoning and more models can be worse or cost more. Routing/fine-tuning need held-out evaluation. | Start with offline, non-secret fixtures. Compare false allows, false denies, pass@1, latency and measured cost. Keep present bounded reasoning/retry settings until evidence supports a change. Routing, fan-out and training are optional experiments, not pre-submission work or approved spend. |
+
+The legal-agent workshop's three retries and 80% checklist threshold were demo settings, not security acceptance criteria. Do not copy them into enforcement: a single unauthorized effect is a failure. Current provider paths intentionally have no automatic retry. A reviewer model cannot prove OS containment or inspect a missing helper boundary.
+
+### Remaining sequence
+
+1. Preserve the known-good offline suite and scoped deny proofs. Add negative-case and recovery evidence for any changed control before describing it as complete.
+2. Finish the real macOS enforcement boundary only within an approved isolated test setup. Keep host permissions, installs, paid calls and release gates unchanged until separately authorized. If that proof is unavailable, name the gap in the demo and submission rather than declaring the whole-computer product finished.
+3. Prepare the three-minute submission video and answers now. Use one coherent incident, show actual Meta contribution and deterministic enforcement separately, then close with measured results and honest limits. A shorter core sequence can fit inside the three-minute artifact, but two minutes is not the official requirement.
+4. Complete a clean-clone run check, original-work/dependency/asset provenance audit and final owner review of submission terms, license choice and subjective answers. Do not treat this documentation update as terms acceptance, a license grant or submission approval.
+
+### Verified submission facts and note corrections
+
+Checked against the fully loaded official guide, rules and form on Nov 1, 2026:
+
+- Deadline: Wednesday Nov 4, 9:00 PM Eastern, equivalent to 8:00 PM Chicago. Nov 3 is the project submission target, not the official cutoff.
+- Both guide and form call for a **three-minute demo video**. Public GitHub repository and an accessible video link are required; identify the functionality built during the event.
+- Rubric: Impact 30%, Meta AI Tooling 25%, Technical Depth & Execution 20%, Demo 25%. These are now confirmed in the formal rules, not speculative weights.
+- Teams may have up to four participants; solo is allowed. Do not add unapproved participants or infer personal eligibility from these notes.
+- Third-party technical assistance and licensed open source are permitted subject to the formal ownership and license conditions. Audit what is included; do not redistribute Santa or add a source license without the relevant rights and owner decision.
+- Current official Fireworks offer is **$100 for selected teams**, not the kickoff note's $25. Partner credits are conditional, not a balance or spending authorization. Meta credit claims are individual and require a payment method; a notification is not a hard spending cap.
+- The kickoff notes' fixed bonus categories/amounts and Fireworks notes' model sizes, free-training dates, retention claims, reasoning defaults and benchmark gains are workshop recollections. They are not required features or verified current vendor guarantees. Verify vendor documentation and actual account terms before relying on any of them.
+- Rules acceptance, final license/rights review and submission remain separate gates. Discord announcements are not verified by reading these pages.
+
+Official sources: [Participant guide](https://cerebralvalley.ai/e/meta-ai-developer-hackathon/details), [Official rules](https://cerebralvalley.ai/e/meta-ai-developer-hackathon/waiver), [Submission form](https://cerebralvalley.ai/e/meta-ai-developer-hackathon/hackathon/submit). Educational provenance: participant-supplied Granola summaries of the four named sessions above, received Nov 1; summaries can contain transcription errors. No raw transcript or share credential is committed.
 
 ---
 
@@ -43,7 +86,7 @@ Agent MCP tools      → MCP proxy (policy.py) ─┴─ deny → threat_bus + p
 ## 2. How judging actually works (and how we score)
 
 Public Indie framing: creativity, technical ambition, whether it works.
-Waiver-style weights (verify vs Official Rules PDF):
+Formal rules weights (verified Nov 1; see section 0):
 
 | Bucket | ~Weight | Our weapon | Must show on video |
 |--------|---------|------------|--------------------|
@@ -120,13 +163,13 @@ Honest limits: IDE hook soft-allows benign unknown paths/cmds so coding stays us
 
 ## 6. Gap analysis — only build what moves score
 
-### P0 — must ship (wins demo + tooling + execution)
+### P0 — historical demo priorities (subject to section 0)
 1. **Bulletproof Attack 01** — structured JSON output (`response_format`) so forensics never parse-fail mid-demo.
 2. **Visible Muse proof** — on-screen model IDs + optional Wonder `reasoning.summary` line in the chain.
 3. **Record 2 takes** of the north-star demo; keep a known-good backup recording.
 4. **GitHub + README** that runs in 2 commands; commits inside Oct 26–Nov 4 window.
 5. **Submission writeup** mapped to Impact / Tooling / Demo / Execution.
-6. Confirm Official Rules accepted; claim partner credits only if needed for scale.
+6. Owner must review Official Rules acceptance and rights; no credit claim or spend is authorized by this plan.
 
 ### P1 — if ≥1–2 days remain (raises tooling + impact credibility)
 1. ~~Fail-closed policy layer~~ **Done** — `policy.py` + `threat_model.py` (16+ gate probes + Muse for injection).
@@ -181,8 +224,8 @@ From the expert guide — **compose**, don’t sprinkle:
 | **Sat Oct 31** | P1 fail-closed rules *or* polish only if tired | Either policy banner ships or consciously skipped |
 | **Sun Nov 1** | Record demo takes (2+); pick best; upload draft private | Video file exists |
 | **Mon Nov 2** | GitHub cleanup, README, screenshots, final writeup | Repo cloneable by a stranger |
-| **Tue Nov 3** | Buffer / workshops / Official Rules re-read | Submission packet staged |
-| **Wed Nov 4** | Submit by **6:00 PM ET**; do not touch code after | Portal confirmation saved |
+| **Tue Nov 3** | Target submission after final owner review | Submission confirmation saved |
+| **Wed Nov 4** | Official deadline buffer only; no unapproved submission action | If still pending, escalate before 9:00 PM Eastern |
 
 Workshops/Discord: only attend if it unblocks credits or Official Rules — do not sacrifice the demo for FOMO.
 
@@ -210,7 +253,7 @@ Oct 28 stress runs burned most of a day’s Model API usage (~$1.80 / 225 reques
 
 - [ ] GitHub repo public (or accessible per rules) with hackathon-window commits
 - [ ] `README.md` run steps (venv → streamlit)
-- [ ] Demo video ≤2 min on YouTube/Loom/Vimeo — **real product**
+- [ ] Three-minute demo video on an accessible supported video host — **real product**
 - [ ] Written description: problem, Meta architecture, track/theme
 - [ ] Disclose any boilerplate
 - [ ] Official Rules accepted

@@ -100,7 +100,9 @@ Env flags:
 | `SWARMGUARD_ENFORCE` | `1` | Fail-closed policy |
 | `SWARMGUARD_MUSE_ON_AMBIGUOUS` | `0` | Optional low-cost Spark on poisoned `tools/list` / ambiguous results (off = token discipline) |
 
-## 2-minute demo story
+## Submission demo story (three-minute video)
+
+Official guide and form request a three-minute video. See [the Nov 1 stream-guidance plan](./WIN_PLAN.md#0-stream-guidance-integrated-on-nov-1-2026) for verification priorities and current scope limits.
 
 1. Menu bar **Open Protector**: **Policy ON · scoped hooks only**; start MCP proxy → panel shows **MCP gate: wrapping**.
 2. Agent (or menu **Run free proofs** / `run_ide_hook_demo.py` / `run_mcp_gate_demo.py`) tries `read .env` / evil curl → **hard deny** (no Muse needed); denials appear in the panel.
