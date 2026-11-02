@@ -139,6 +139,60 @@ class HelperProtocolTests(unittest.TestCase):
         with self.assertRaises(Refused): self.c.receive(self.wire('begin_simulation',identity))
         self.c.receive(self.wire('cancel',identity)); self.stage()
 
+    def test_history_links_exact_simulated_transitions_and_restart(self):
+        identity = self.stage()
+        self.c.receive(self.wire('begin_simulation',identity))
+        self.c = InertController(self.tmp.name,self.key,clock=lambda:self.now)
+        self.assertEqual([r['state'] for r in self.c.history()],['staged','simulating','unknown'])
+        self.c.receive(self.wire('rollback_simulation',identity))
+        self.assertTrue(all(r['host_effects'] is False for r in self.c.history()))
+
+    def test_refused_commands_logged_without_untrusted_payload_or_errors(self):
+        with self.assertRaises(Refused):
+            self.c.receive(self.wire('private-untrusted-text',{'id':'a'*32,'digest':'b'*64}))
+        history=self.c.history()
+        self.assertEqual(history[0]['operation'],'unsupported')
+        self.assertEqual(history[0]['outcome'],'refused')
+        self.assertNotIn('private-untrusted-text',json.dumps(history))
+        self.assertNotIn('identity mismatch',json.dumps(history))
+
+    def test_journal_failure_rolls_back_state_and_sequence_together(self):
+        wire=self.wire('stage',{'rules':self.rules})
+        with patch.object(self.c,'_record',side_effect=OSError('inert journal failure')):
+            with self.assertRaises(OSError): self.c.receive(wire)
+        self.assertEqual(self.c.inspect(),[])
+        self.assertEqual(self.c.history(),[])
+        # No command effect was committed, so this is not a consumed command.
+        self.assertEqual(self.c.receive(wire)['state'],'staged')
+
+    def test_accidental_record_edit_refuses_read_transition_and_restart(self):
+        import sqlite3
+        identity=self.stage()
+        with sqlite3.connect(self.c.path) as db:
+            db.execute("UPDATE journal SET record='changed' WHERE position=1")
+        with self.assertRaisesRegex(Refused,'integrity'): self.c.history()
+        with self.assertRaisesRegex(Refused,'integrity'):
+            self.c.receive(self.wire('begin_simulation',identity))
+        with self.assertRaisesRegex(Refused,'integrity'):
+            InertController(self.tmp.name,self.key,clock=lambda:self.now)
+        self.assertEqual(self.c.inspect()[0]['state'],'staged')
+
+    def test_interior_record_deletion_detected(self):
+        import sqlite3
+        identity=self.stage()
+        self.c.receive(self.wire('begin_simulation',identity))
+        with sqlite3.connect(self.c.path) as db:
+            db.execute('DELETE FROM journal WHERE position=1')
+        with self.assertRaisesRegex(Refused,'integrity'): self.c.history()
+
+    def test_nonfinite_clock_refused(self):
+        for bad in (float('nan'),float('inf'),float('-inf')):
+            with self.assertRaises(Refused):
+                InertController(self.tmp.name,self.key,clock=lambda:bad)
+            self.now=bad
+            with self.assertRaises(Refused):
+                self.c.receive(self.wire('stage',{'rules':self.rules},expires=1030))
+
     def test_private_directory_and_symlink_preconditions(self):
         with self.assertRaises(ValueError): InertController(self.tmp.name,b'short')
         public=Path(self.tmp.name)/'public';public.mkdir(mode=0o755)

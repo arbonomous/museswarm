@@ -7,6 +7,7 @@ user approval. Never connect this prototype to a privileged service as-is.
 import hashlib
 import hmac
 import json
+import math
 import secrets
 import sqlite3
 import threading
@@ -94,6 +95,8 @@ class InertController:
             raise Refused('Existing private disposable directory required')
         if directory.stat().st_mode & 0o077:
             raise Refused('Disposable directory must be owner-only')
+        if not math.isfinite(clock()):
+            raise Refused('Finite clock required')
         self.path = directory / 'inert-controller.sqlite3'
         if self.path.is_symlink():
             raise Refused('Symlink database refused')
@@ -105,9 +108,16 @@ class InertController:
         with self._db() as db:
             db.execute('CREATE TABLE IF NOT EXISTS session (singleton INTEGER PRIMARY KEY CHECK(singleton=1), epoch TEXT NOT NULL, seq INTEGER NOT NULL, last_time INTEGER NOT NULL)')
             db.execute('CREATE TABLE IF NOT EXISTS policy (id TEXT PRIMARY KEY, digest TEXT NOT NULL, state TEXT NOT NULL, expires INTEGER NOT NULL)')
+            db.execute('CREATE TABLE IF NOT EXISTS journal (position INTEGER PRIMARY KEY, record TEXT NOT NULL, previous TEXT NOT NULL, digest TEXT NOT NULL)')
+            self._verify_journal(db)
+            interrupted = db.execute("SELECT id,digest,state FROM policy WHERE state IN ('staged','simulating','simulated_applied')").fetchall()
             db.execute("UPDATE policy SET state=CASE WHEN state IN ('simulating','simulated_applied') THEN 'unknown' ELSE 'invalidated' END WHERE state IN ('staged','simulating','simulated_applied')")
             db.execute('INSERT OR REPLACE INTO session VALUES(1,?,?,?)',
                        (self.epoch, 0, int(clock())))
+            for pid, digest, state in interrupted:
+                self._record(db, operation='restart', policy_id=pid, policy_digest=digest,
+                             state='invalidated' if state == 'staged' else 'unknown',
+                             seq=0, now=int(clock()), outcome='recovery')
         self.path.chmod(0o600)
 
     @contextmanager
@@ -158,15 +168,26 @@ class InertController:
         refusal, result = None, None
         with self._db() as db:
             epoch, seq, last = db.execute('SELECT epoch,seq,last_time FROM session WHERE singleton=1').fetchone()
-            now = int(self.clock())
+            current_time = self.clock()
+            if not math.isfinite(current_time):
+                raise Refused('Finite clock required')
+            now = int(current_time)
             if (epoch != self.epoch or m['epoch'] != epoch or m['seq'] <= seq or
                     now < last or not now < m['expires'] <= now + MAX_TTL):
                 raise Refused('Stale, replayed, expired or unfenced command')
+            self._verify_journal(db)
             db.execute('UPDATE session SET seq=?,last_time=? WHERE singleton=1', (m['seq'], now))
             try:
                 result = self._transition(db, m, now)
             except Refused as exc:
                 refusal = exc
+            # No untrusted command body or arbitrary error text enters history.
+            self._record(db, operation=m['operation'] if m['operation'] in
+                         ('stage','begin_simulation','ack_simulation','cancel','rollback_simulation') else 'unsupported',
+                         policy_id=result['id'] if result else None,
+                         policy_digest=result['digest'] if result else None,
+                         state=result['state'] if result else None, seq=m['seq'],
+                         now=now, outcome='refused' if refusal else 'simulated')
         if refusal:
             raise refusal
         return result
@@ -200,6 +221,39 @@ class InertController:
             raise Refused('Invalid state transition or expired stage')
         db.execute('UPDATE policy SET state=? WHERE id=?', (target, body['id']))
         return {**body, 'state': target, 'host_effects': False}
+
+    @staticmethod
+    def _verify_journal(db):
+        previous = '0' * 64
+        expected_position = 1
+        for position, record, prior, digest in db.execute(
+                'SELECT position,record,previous,digest FROM journal ORDER BY position'):
+            if (position != expected_position or prior != previous or
+                    not hmac.compare_digest(fingerprint({'previous':prior,'record':record}), digest)):
+                raise Refused('Inert journal integrity check failed')
+            previous = digest
+            expected_position += 1
+        return previous, expected_position
+
+    def _record(self, db, *, operation, policy_id, policy_digest, state, seq, now, outcome):
+        previous, position = self._verify_journal(db)
+        record = canonical(dict(epoch=self.epoch, seq=seq, at=now,
+                                operation=operation, id=policy_id,
+                                policy_digest=policy_digest, state=state,
+                                outcome=outcome, host_effects=False)).decode('ascii')
+        db.execute('INSERT INTO journal VALUES(?,?,?,?)',
+                   (position, record, previous, fingerprint({'previous':previous,'record':record})))
+
+    def history(self):
+        """Integrity-checked simulation history. Not a signed security log.
+
+        Hash linking detects accidental edits/gaps, not malicious rewriting by
+        someone who can alter the database. A new empty DB has no external anchor.
+        """
+        with self._db() as db:
+            self._verify_journal(db)
+            return [json.loads(row[0]) for row in db.execute(
+                'SELECT record FROM journal ORDER BY position')]
 
     def inspect(self):
         with self._db() as db:

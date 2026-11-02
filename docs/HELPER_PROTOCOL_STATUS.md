@@ -11,6 +11,7 @@ Status: source-only prototype, not released. Nothing on the Mac is protected by 
 - SQLite transactions persist consumed sequences and state changes before returning a result. Semantic refusals consume their sequence. Concurrent duplicates have one winner.
 - One unresolved policy at a time. Stage binds a deterministic policy digest and expiry. Begin records simulation intent; only a separate acknowledgement can record simulated application. Cancellation cannot erase an active intent.
 - A new receiver fences older instances, invalidates staged work and marks interrupted or previously simulated application unknown. Unknown state blocks replacement until explicit simulated rollback.
+- A transactional hash-linked simulation journal records exact transition identities, sequence/epoch, refusals and restart recovery without command bodies, keys or arbitrary error text. Journal failure rolls back the transition and sequence together; accidental interior edits/gaps refuse further transitions. This is not a signed audit log: malicious rewriting, tail truncation or database replacement is not detected without an independent anchor.
 - Database failure raises rather than claiming completion. There is no automatic retry, dispatcher or OS adapter.
 
 ## What this does not establish
