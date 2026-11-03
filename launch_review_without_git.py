@@ -1,10 +1,10 @@
 import hashlib, pathlib, runpy, subprocess, sys, tempfile, zipfile
 old = pathlib.Path('/Users/illfaded2022/Desktop/Workspace/swarmguard-zero')
-import AppKit, dotenv, openai
+import AppKit, dotenv
 root = pathlib.Path(tempfile.mkdtemp(prefix='museswarm-review-'))
 z = root / 'source.zip'
-subprocess.run(['/usr/bin/curl', '-fLsS', '--connect-timeout', '15', '--max-time', '90', 'https://github.com/arbonomous/museswarm/archive/4faf6e70e5870ccbb9f0f9f61bfb0c09cf083a50.zip', '-o', str(z)], check=True)
-if hashlib.sha256(z.read_bytes()).hexdigest() != 'dac5196a41cc183b5b6f1bc590567e11afafb05763dbfa52dea6f6ed4f04842e':
+subprocess.run(['/usr/bin/curl', '-fLsS', '--connect-timeout', '15', '--max-time', '90', 'https://github.com/arbonomous/museswarm/archive/c32fbeb8c21f26865ac59e284334b81389681925.zip', '-o', str(z)], check=True)
+if hashlib.sha256(z.read_bytes()).hexdigest() != '6b68747dd7a21feb3935f3246f35f6de663793b37482a84ee5ae49f6add6e32f':
     raise SystemExit('Source verification failed. Nothing started.')
 with zipfile.ZipFile(z) as archive:
     for item in archive.infolist():
