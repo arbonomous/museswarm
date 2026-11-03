@@ -901,13 +901,22 @@ def _run_appkit() -> None:
             return self
 
         def applicationDidFinishLaunching_(self, _notification) -> None:
+            try:self.buildShell_(_notification)
+            except Exception as error:
+                from AppKit import NSAlert
+                alert=NSAlert.alloc().init();alert.setMessageText_("MuseSwarm could not finish opening")
+                alert.setInformativeText_(type(error).__name__+": "+str(error)[:240]+"\nNo task started. Please share this message.")
+                alert.runModal()
+
+        def buildShell_(self, _notification) -> None:
             # Guard: Cocoa may deliver this once via app.run(); never create
             # a second NSStatusItem (keep single status item + PID lock).
             if self.status_item is not None:
                 return
 
             bar = NSStatusBar.systemStatusBar()
-            self.status_item = bar.statusItemWithLength_(NSVariableStatusItemLength)
+            self.status_item = bar.statusItemWithLength_(30.0)
+            self.status_item.setVisible_(True)
             self._status_image = _load_ns_status_image()
             button = self.status_item.button()
             if button is not None:
@@ -976,6 +985,12 @@ def _run_appkit() -> None:
             self.menu.addItem_(quit_item)
 
             self.status_item.setMenu_(self.menu)
+            if os.environ.get("MUSESWARM_DOCK")=="1":
+                import json
+                from Foundation import NSBundle
+                folder=Path.home()/"Library"/"Application Support"/"SwarmGuard"
+                folder.mkdir(parents=True,exist_ok=True)
+                (folder/"app-shell-status.json").write_text(json.dumps({'bundle':str(NSBundle.mainBundle().bundleURL()),'menu_created':self.status_item is not None,'menu_visible':bool(self.status_item.isVisible()),'icon_loaded':self._status_image is not None}))
             self.applySnapshot_(_status_snapshot())
             if os.environ.get("MUSESWARM_DOCK")=="1":
                 open_guarded_task()
@@ -1005,7 +1020,7 @@ def _run_appkit() -> None:
             if button is not None:
                 if self._status_image is not None and button.image() is None:
                     button.setImage_(self._status_image)
-                button.setTitle_(snap["title"])
+                button.setTitle_(snap["title"] or "")
                 button.setToolTip_(snap["tooltip"])
             self.enforce_item.setTitle_(
                 _protecting_line(snap["enforce"])
@@ -1054,12 +1069,11 @@ def _run_appkit() -> None:
     dock=os.environ.get("MUSESWARM_DOCK")=="1"
     app.setActivationPolicy_(NSApplicationActivationPolicyRegular if dock else NSApplicationActivationPolicyAccessory)
     if dock:
-        from Foundation import NSProcessInfo,NSBundle
-        NSProcessInfo.processInfo().setProcessName_("MuseSwarm")
-        NSBundle.mainBundle().infoDictionary()["CFBundleName"]="MuseSwarm"
         image=NSImage.alloc().initWithContentsOfFile_(str(BRAND_DIR/"swarmguard-mark.png"))
         if image is not None:app.setApplicationIconImage_(image)
     delegate = Delegate.alloc().init()
+    global _APP_DELEGATE
+    _APP_DELEGATE=delegate
     app.setDelegate_(delegate)
     # Do NOT call applicationDidFinishLaunching_ here — app.run() delivers it
     # once. A manual call plus Cocoa's delivery created two NSStatusItems.

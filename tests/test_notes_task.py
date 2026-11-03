@@ -46,8 +46,10 @@ class NotesTests(unittest.TestCase):
         import plistlib
         with tempfile.TemporaryDirectory() as t:
             root=Path(t);src=root/'src';src.mkdir();(src/'menubar.py').write_text('def main() -> None:\n    pass\n');(src/'.env').write_text('fake-secret');(src/'link.py').symlink_to(src/'.env')
+            import shutil
+            shutil.copytree(Path('vendor'),src/'vendor')
             home=root/'home';home.mkdir();app=build(src,home,check=False)
-            self.assertFalse((app/'Contents/Resources/app/.env').exists());self.assertFalse((app/'Contents/Resources/app/link.py').exists());self.assertFalse(plistlib.loads((app/'Contents/Info.plist').read_bytes())['LSUIElement'])
+            self.assertFalse((app/'Contents/Resources/app/.env').exists());self.assertFalse((app/'Contents/Resources/app/link.py').exists());self.assertFalse(plistlib.loads((app/'Contents/Info.plist').read_bytes())['LSUIElement']);self.assertEqual((app/'Contents/MacOS/MuseSwarm').read_bytes()[:4],bytes.fromhex('cafebabe'))
             with self.assertRaises(FileExistsError):build(src,home,check=False)
 
     def test_clean_failure_and_cleanup_failure_are_plain_distinct_states(self):
