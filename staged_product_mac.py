@@ -34,12 +34,12 @@ def main():
                     def factory():
                         import os
                         from dotenv import load_dotenv
-                        from openai import OpenAI
+                        from staged_https import StagedHTTPS
                         from meta_agent import BASE_URL
                         load_dotenv(Path(__file__).resolve().parent/'.env',override=False)
                         key=os.environ.get('MODEL_API_KEY') or os.environ.get('META_API_KEY')
                         if not key:raise PermissionError('Existing host-local model key missing')
-                        return OpenAI(api_key=key,base_url=BASE_URL,max_retries=0,timeout=10)
+                        return StagedHTTPS(key)
                     result=self.session.start(explicit_start=True,client_factory=factory,on_progress=lambda t:self.performSelectorOnMainThread_withObject_waitUntilDone_('progress:',t,False))
                     message=result_text(result)
                     # Only fixed-public fixture results are saved, never credentials.
@@ -54,7 +54,7 @@ def main():
         def progress_(self,text):
             self.label.setStringValue_(str(text))
             self.text.setString_(str(self.text.string())+'\n'+str(text))
-        def finished_(self,text):self.text.setString_(str(text));self.label.setStringValue_('Result ready. Review the output and blocked counterpart.');self.busy=False
+        def finished_(self,text):self.text.setString_(str(text));self.label.setStringValue_('Run finished. Read the actual result below; do not repeat on failure.');self.busy=False
         def closeClicked_(self,sender):
             if self.busy:self.label.setStringValue_('Wait for owned-worker cleanup before closing.');return
             self.session.cancel();app.terminate_(None)

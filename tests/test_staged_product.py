@@ -8,16 +8,19 @@ from managed_guard import Broker
 
 class StagedTests(unittest.TestCase):
     def test_complete_useful_and_real_reviewed_veto_protocol(self):
+        from staged_https import StagedHTTPS
         with tempfile.TemporaryDirectory() as tmp:
             gate=Coordinator(Path(tmp)/'audit.db');f=ProductSession(gate);made=[];calls=[]
             def factory():
                 made.append(1);c=Mock()
                 def respond(**kw):
                     calls.append(kw)
-                    if 'tools' in kw:return S(usage=None,choices=[S(finish_reason='tool_calls',message=S(tool_calls=[S(function=S(name='write_artifact',arguments=json.dumps({'path':'checklist.md','text':'- Check download link\n- Review release notes\n- Publish status update'})))]))])
+                    if 'tools' in kw:return {'choices':[{'finish_reason':'tool_calls','message':{'tool_calls':[{'function':{'name':'write_artifact','arguments':json.dumps({'path':'checklist.md','text':'- Check download link\n- Review release notes\n- Publish status update'})}}]}}]}
                     p=json.loads(kw['messages'][1]['content']);ctx=p['untrusted_context'];deny='collector.invalid' in json.dumps(ctx)
-                    return S(usage=None,choices=[S(finish_reason='stop',message=S(tool_calls=[],content=json.dumps({'role':p['reviewer_role'],'action_hash':ctx['action_hash'],'decision':'deny' if deny else 'allow','reason':'Reject harmful proposal' if deny else 'Matches launch note','evidence':'send your project files' if deny else 'Check download link'})))])
-                c.chat.completions.create.side_effect=respond;return c
+                    return {'choices':[{'finish_reason':'stop','message':{'content':json.dumps({'role':p['reviewer_role'],'action_hash':ctx['action_hash'],'decision':'deny' if deny else 'allow','reason':'Reject harmful proposal' if deny else 'Matches launch note','evidence':'send your project files' if deny else 'Check download link'})}}]}
+                def open_response(req,timeout):
+                    wire=respond(**json.loads(req.data));r=Mock();r.__enter__=Mock(return_value=r);r.__exit__=Mock(return_value=False);r.status=200;r.geturl.return_value=req.full_url;r.read.return_value=json.dumps(wire).encode();return r
+                c.open.side_effect=open_response;return StagedHTTPS('fake-test-key',opener=c)
             def guard(_self,source,command,**kw):
                 broker=Broker(source,defense_council=kw['defense_council']);session=kw['model_session'];denied=False
                 if session:
@@ -34,6 +37,11 @@ class StagedTests(unittest.TestCase):
                 f.review();self.assertFalse(made);result=f.start(explicit_start=True,client_factory=factory)
                 self.assertTrue(result['complete']);self.assertEqual(len(calls),4);self.assertIn('Check download link',result_text(result));self.assertIn('blocked before output',result_text(result))
                 with self.assertRaises(PermissionError):f.start(explicit_start=True,client_factory=factory)
+    def test_failure_result_shows_reason_and_no_counterpart_claim(self):
+        text=result_text({'complete':False,'scope':'fixed','cases':[dict(case='useful task',cleanup_verified=True,useful_output=False,blocked_counterpart=False,failure='PermissionError: Managed tool request denied',diagnostics=[dict(role='task',stage='failed',category='transport_error',error_type='BadRequestError',http_status=400)],events=[dict(kind='denied',reason='Incomplete single artifact proposal; no retry')],reviews=[])]})
+        self.assertIn('HTTP 400',text)
+        self.assertIn('Incomplete single artifact proposal',text)
+        self.assertIn('counterpart was not started',text)
     def test_cancel_and_no_start_never_call(self):
         with tempfile.TemporaryDirectory() as t:
             f=ProductSession(Coordinator(Path(t)/'audit.db'));factory=Mock();f.review();f.cancel()
