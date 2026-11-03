@@ -66,6 +66,16 @@ class ProviderBridge:
         obj.client=client;obj.mock_only=False;obj.failed=False;obj.usage=[];obj.diagnostics=[]
         return obj
 
+    @classmethod
+    def for_staged_product(cls,coordinator,claim,manifest,*,client):
+        from staged_product import plan
+        if manifest not in (plan().manifest,plan(True).manifest):
+            raise PermissionError('Not the fixed staged product plan')
+        obj=object.__new__(cls)
+        obj.coordinator=coordinator;obj.claim=claim;obj.manifest=manifest
+        obj.client=client;obj.mock_only=False;obj.failed=False;obj.usage=[];obj.diagnostics=[]
+        return obj
+
     def request(self,role,messages,*,tools=None):
         if self.failed:raise PermissionError('Provider run already stopped; no retries')
         try:
