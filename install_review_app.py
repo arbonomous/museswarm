@@ -2,8 +2,8 @@
 import hashlib,pathlib,sys,tempfile,urllib.request,zipfile,subprocess
 import AppKit,dotenv
 root=pathlib.Path(tempfile.mkdtemp(prefix='museswarm-app-source-'))
-data=urllib.request.urlopen('https://github.com/arbonomous/museswarm/archive/0add06286604d7603e8b288e29a1ce893a8ac156.zip',timeout=30).read()
-if hashlib.sha256(data).hexdigest()!='e6abd4dc9cfb3332395d61ce69f9634b09a1c8ffc309325a9e4131d45bae154f':raise SystemExit('Source verification failed. Nothing installed.')
+data=urllib.request.urlopen('https://github.com/arbonomous/museswarm/archive/b25540db383f39dc8e37c1f5a76e6bb88165bdfc.zip',timeout=30).read()
+if hashlib.sha256(data).hexdigest()!='688edb1381a4ccf310b4f6ca2f39de6a161bfd7d63654834840b9a2fe2d84368':raise SystemExit('Source verification failed. Nothing installed.')
 import io
 with zipfile.ZipFile(io.BytesIO(data)) as archive:
     for item in archive.infolist():
@@ -14,6 +14,6 @@ with zipfile.ZipFile(io.BytesIO(data)) as archive:
         out=root.joinpath(*parts[1:]);out.parent.mkdir(parents=True,exist_ok=True);out.write_bytes(archive.read(item))
 sys.path.insert(0,str(root))
 from build_mac_app import build
-app=build(root)
+app=build(root,replace_known=True)
 print('Created '+str(app)+'. No model request made. Opening the app.')
 subprocess.run(['/usr/bin/open',str(app)],check=True)
