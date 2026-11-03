@@ -76,6 +76,16 @@ class ProviderBridge:
         obj.client=client;obj.mock_only=False;obj.failed=False;obj.usage=[];obj.diagnostics=[]
         return obj
 
+    @classmethod
+    def for_notes_task(cls,coordinator,claim,plan,*,client):
+        from native_task_flow import prepare
+        if set(plan.source)!={'notes.txt'} or prepare(plan.source,plan.goal).manifest!=plan.manifest:
+            raise PermissionError('Not the bounded notes-to-draft plan')
+        obj=object.__new__(cls)
+        obj.coordinator=coordinator;obj.claim=claim;obj.manifest=plan.manifest
+        obj.client=client;obj.mock_only=False;obj.failed=False;obj.usage=[];obj.diagnostics=[]
+        return obj
+
     def request(self,role,messages,*,tools=None):
         if self.failed:raise PermissionError('Provider run already stopped; no retries')
         try:

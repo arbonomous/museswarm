@@ -209,6 +209,15 @@ def _present_native_section(section: str, status_item=None) -> None:
         alert.runModal()
 
 
+def open_guarded_task():
+    from notes_task_mac import open_panel
+    return open_panel()
+
+def guarded_task_busy():
+    from notes_task_mac import is_busy
+    return is_busy()
+
+
 def open_offline_workspace(status_item=None) -> str:
     """Native menu-owned workspace. Never starts or opens a browser."""
     show_native_section("Workspace", status_item)
@@ -807,6 +816,7 @@ def _run_rumps() -> None:
                 rumps.MenuItem("Safety check...", callback=self._on_proofs),
                 rumps.MenuItem("Activity...", callback=self._on_activity),
                 rumps.MenuItem("Workspace...", callback=self._on_workspace),
+                rumps.MenuItem("Guarded task...", callback=self._on_task),
                 rumps.MenuItem("Quit MuseSwarm", callback=self._on_quit),
             ]
             self._apply_snapshot(_status_snapshot())
@@ -833,6 +843,9 @@ def _run_rumps() -> None:
         def _on_activity(self, _sender: Any) -> None:
             show_native_section(section="Activity and evidence", status_item=_rumps_status_item(self))
 
+        def _on_task(self, _sender: Any) -> None:
+            open_guarded_task()
+
         def _on_workspace(self, _sender: Any) -> None:
             open_offline_workspace(_rumps_status_item(self))
 
@@ -841,6 +854,8 @@ def _run_rumps() -> None:
             rumps.notification("MuseSwarm", "Full console", msg)
 
         def _on_quit(self, _sender: Any) -> None:
+            if guarded_task_busy():
+                open_guarded_task();return
             from native_workspace import is_busy
             if is_busy():
                 open_offline_workspace(_rumps_status_item(self))
@@ -862,6 +877,8 @@ def _run_appkit() -> None:
         NSApp,
         NSApplication,
         NSApplicationActivationPolicyAccessory,
+        NSApplicationActivationPolicyRegular,
+        NSImage,
         NSMenu,
         NSMenuItem,
         NSStatusBar,
@@ -946,6 +963,12 @@ def _run_appkit() -> None:
             workspace_item.setTarget_(self)
             self.menu.addItem_(workspace_item)
 
+            task_item = NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(
+                "Guarded task...", "openGuardedTask:", ""
+            )
+            task_item.setTarget_(self)
+            self.menu.addItem_(task_item)
+
             quit_item = NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(
                 "Quit MuseSwarm", "quitApp:", ""
             )
@@ -954,6 +977,8 @@ def _run_appkit() -> None:
 
             self.status_item.setMenu_(self.menu)
             self.applySnapshot_(_status_snapshot())
+            if os.environ.get("MUSESWARM_DOCK")=="1":
+                open_guarded_task()
             if self.timer is None:
                 self.timer = NSTimer.scheduledTimerWithTimeInterval_target_selector_userInfo_repeats_(
                     float(REFRESH_S),
@@ -962,6 +987,15 @@ def _run_appkit() -> None:
                     None,
                     True,
                 )
+
+        def applicationShouldHandleReopen_hasVisibleWindows_(self, _app, _visible):
+            open_guarded_task();return True
+
+        def applicationShouldTerminate_(self, _app):
+            from native_workspace import is_busy
+            if guarded_task_busy():open_guarded_task();return 0
+            if is_busy():open_offline_workspace(self.status_item);return 0
+            _release_instance_lock();return 1
 
         def tick_(self, _timer) -> None:
             self.applySnapshot_(_status_snapshot())
@@ -989,6 +1023,9 @@ def _run_appkit() -> None:
         def openActivity_(self, _sender) -> None:
             show_native_section(section="Activity and evidence", status_item=self.status_item)
 
+        def openGuardedTask_(self, _sender) -> None:
+            open_guarded_task()
+
         def openWorkspace_(self, _sender) -> None:
             open_offline_workspace(self.status_item)
 
@@ -996,6 +1033,8 @@ def _run_appkit() -> None:
             open_full_console()
 
         def quitApp_(self, _sender) -> None:
+            if guarded_task_busy():
+                open_guarded_task();return
             from native_workspace import is_busy
             if is_busy():
                 open_offline_workspace(self.status_item)
@@ -1012,7 +1051,14 @@ def _run_appkit() -> None:
             NSApp.terminate_(None)
 
     app = NSApplication.sharedApplication()
-    app.setActivationPolicy_(NSApplicationActivationPolicyAccessory)
+    dock=os.environ.get("MUSESWARM_DOCK")=="1"
+    app.setActivationPolicy_(NSApplicationActivationPolicyRegular if dock else NSApplicationActivationPolicyAccessory)
+    if dock:
+        from Foundation import NSProcessInfo,NSBundle
+        NSProcessInfo.processInfo().setProcessName_("MuseSwarm")
+        NSBundle.mainBundle().infoDictionary()["CFBundleName"]="MuseSwarm"
+        image=NSImage.alloc().initWithContentsOfFile_(str(BRAND_DIR/"swarmguard-mark.png"))
+        if image is not None:app.setApplicationIconImage_(image)
     delegate = Delegate.alloc().init()
     app.setDelegate_(delegate)
     # Do NOT call applicationDidFinishLaunching_ here — app.run() delivers it
@@ -1024,6 +1070,8 @@ def main() -> None:
     # Never call Muse / Meta from the menu bar / Protector panel.
     os.environ.setdefault("SWARMGUARD_MUSE_ON_AMBIGUOUS", "0")
     acquire_single_instance()
+    if os.environ.get("MUSESWARM_DOCK")=="1":
+        _run_appkit();return
     try:
         import rumps  # noqa: F401
 
