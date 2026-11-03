@@ -61,3 +61,8 @@ class NotesTests(unittest.TestCase):
         self.assertIn('callback=self._on_task',text);self.assertIn('"openGuardedTask:"',text)
         self.assertGreaterEqual(text.count('if guarded_task_busy():'),3)
         self.assertIn('applicationShouldHandleReopen_hasVisibleWindows_',text)
+
+    def test_native_bundle_owns_dock_artwork(self):
+        text=Path('menubar.py').read_text()
+        self.assertIn('if dock and not bundled:',text)
+        self.assertIn('com.arbonomous.museswarm',text)

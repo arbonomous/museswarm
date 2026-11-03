@@ -1068,7 +1068,9 @@ def _run_appkit() -> None:
     app = NSApplication.sharedApplication()
     dock=os.environ.get("MUSESWARM_DOCK")=="1"
     app.setActivationPolicy_(NSApplicationActivationPolicyRegular if dock else NSApplicationActivationPolicyAccessory)
-    if dock:
+    from Foundation import NSBundle
+    bundled= str(NSBundle.mainBundle().bundleIdentifier())=="com.arbonomous.museswarm"
+    if dock and not bundled:
         image=NSImage.alloc().initWithContentsOfFile_(str(BRAND_DIR/"swarmguard-mark.png"))
         if image is not None:app.setApplicationIconImage_(image)
     delegate = Delegate.alloc().init()
