@@ -10,8 +10,10 @@ A scoped policy gate for AI-agent tools - Meta Global AI Developer Hackathon (In
 
 ## Claim
 
-**Fail-closed on the wire + Meta multimodal forensics.**
-MuseSwarm is a scoped agent-tool gate: an IDE PreToolUse hook + MCP stdio policy proxy deny dangerous tool calls *before* they run, and a Meta Muse swarm (Spark + Wonder + SAM) sees concealed injections when you opt in.
+**A scoped gate before managed AI-worker effects.**
+On November 3, an actual Mac test used muse-spark-1.3 for a useful checklist and two defender roles. Both reviewers allowed the exact useful action before its in-memory artifact was created. A separately planted harmful proposal was vetoed by the first reviewer before its effect; the second review was skipped, and owned-worker stop/removal were checked. Both roles use the same model. This is not a spontaneous hijack, a single-reviewer comparison or whole-computer protection.
+
+Independent network, browser and file enforcement adapters remain unqualified. The Linux network qualification stopped during offline package preparation before the sensor ran. The Mac network test remains unqualified. Separate native AMD64 disposable-namespace research, using single-UID-adapted synthetic rules, passed useful traffic, zero collector bytes, live-sensor lease expiry and listener-loss checks. That is not an ARM64 Docker/OrbStack pass or protection of arbitrary computer traffic. Separate IDE and MCP policy experiments exist, with the limits below. Source includes additional model/vision integrations, but their presence is not verified execution evidence.
 
 ```
 Cursor / Claude Code  →  IDE hook (hooks/museswarm_pretool.py)
@@ -26,7 +28,7 @@ Agent MCP tools       →  MCP proxy (mcp_proxy.py)
 1. **IDE policy hook** — Cursor `.cursor/hooks.json` + Claude Code `.claude/settings.json` run `hooks/museswarm_pretool.py` on PreToolUse / shell / read / MCP; denies `.env` reads and evil curl; logs `policy_deny` with `trigger=ide_hook`
 2. **MCP policy proxy** — `mcp_proxy.py` intercepts `tools/call`, runs `policy.evaluate_tool_call`, denies before upstream, logs `policy_deny` incidents
 3. **Policy catalog** — 16+ attack classes with no API spend — see `threat_model.py`
-4. **Meta AI swarm** — Muse Spark + Wonder + SAM inspect poisoned docs / helper behavior
+4. **Meta review flow** - Muse Spark task and defender-role execution is verified in the fixed managed-worker tests. Wonder and SAM code paths are not claimed as observed submission evidence.
 5. **Protector UI** — macOS menu-bar native panel (primary) + optional Streamlit deep console; status + MCP gate heartbeat + activity (IDE hook / MCP policy deny vs Muse quarantine)
 
 The status label confirms policy configuration only, not that IDE hooks have run or that the whole computer is protected. The MCP heartbeat confirms a running wrapper, not coverage of other tools. IDE command matching is heuristic and can be bypassed by scripts or obfuscation. Strict MCP defaults currently deny unrecognized calls, including normal reads; configure/review policy before using it for everyday work.
@@ -102,26 +104,27 @@ Env flags:
 
 ## Submission demo story (three-minute video)
 
-Official guide and form request a three-minute video. See [the Nov 1 stream-guidance plan](./WIN_PLAN.md#0-stream-guidance-integrated-on-nov-1-2026) for verification priorities and current scope limits.
+Final video, publication, organizer terms and submission still require owner review. The recording should show the actual current product and visibly label the November 3 recorded results if reused. A reconstructed evidence reel is supporting material, not a new live product recording.
 
-1. Menu bar **Open Protector**: **Policy ON · scoped hooks only**; start MCP proxy → panel shows **MCP gate: wrapping**.
-2. Agent (or menu **Run free proofs** / `run_ide_hook_demo.py` / `run_mcp_gate_demo.py`) tries `read .env` / evil curl → **hard deny** (no Muse needed); denials appear in the panel.
-3. Optional advanced: Streamlit **See it work** → Attack 01 poisoned README → Spark + SAM + Wonder report.
-4. Tagline: antivirus for agents — on the wire, with Meta eyes.
+1. State the exact managed-worker boundary and original computer-protection goal.
+2. Show the actual three-item checklist and two same-action approvals.
+3. Label the separate harmful proposal as deliberately planted. Show first-reviewer veto, no artifact and verified worker cleanup.
+4. Explain what is not covered: arbitrary apps, agents outside this launcher and the unqualified network/browser/file adapters. Do not claim demonstrated Wonder/SAM execution or an independent-model ensemble.
+5. State the event-built contribution and next enforcement qualification step, without presenting planned adapters as active.
 
 ## Safety
 
 - Policy defaults to `SWARMGUARD_ENFORCE=1`
-- Demos are simulated; we never SIGKILL real OS processes
+- Some demos are simulated. The verified managed-worker test stops/removes only its owned container, never an arbitrary host process
 - Safe-range canary lab: `safe_range/README.md`
 
 ## Meta stack
 
-| Role | Model |
-|------|--------|
-| Guards | `muse-spark-1.3` |
-| Forensics | `muse-wonder-1.0` |
-| Vision | `sam-3.1` |
+| Role | Model | Evidence |
+|------|--------|----------|
+| Task and defender roles | `muse-spark-1.3` | Actual November 3 managed-worker test |
+| Forensics integration | `muse-wonder-1.0` | Source path, not claimed as observed execution |
+| Vision integration | `sam-3.1` | Source path, not claimed as observed execution |
 
 Analysis reliability: provider calls have a 30-second timeout and no automatic retries. Invalid report fields fall back to explicitly labeled local analysis. Demo quarantine is simulated; SAFE results do not create a quarantine. Offline tests use mocked providers, not Meta API credits.
 
